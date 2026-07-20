@@ -2,8 +2,8 @@
 
 return [
     // App
-    'app_name'   => 'Shwe Yee POS',
-    'tagline'    => 'Rice & Oil Store — Point of Sale',
+    'app_name'   => 'R&O POS',
+    'tagline'    => 'Point of Sale System',
 
     // Auth
     'login'      => 'Log in',

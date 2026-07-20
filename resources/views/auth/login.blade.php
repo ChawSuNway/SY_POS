@@ -4,14 +4,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ __('app.login') }} — {{ __('app.app_name') }}</title>
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}?v=3">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}?v=4">
 </head>
 <body>
 <div class="login-wrap">
     <div class="login-card">
         <div class="logo">
-            <div class="mark">🌾</div>
-            <h1>{{ __('app.app_name') }}</h1>
+            <img src="{{ main_logo_url() }}" alt="{{ __('app.app_name') }}"
+                 style="width:100%;border-radius:12px;display:block;margin-bottom:6px">
             <div class="sub">{{ __('app.tagline') }}</div>
         </div>
 

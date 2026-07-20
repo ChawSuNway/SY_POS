@@ -67,3 +67,11 @@ if (! function_exists('shop_logo_url')) {
         return current_shop()?->logoUrl();
     }
 }
+
+if (! function_exists('main_logo_url')) {
+    /** Platform (R&O POS) main logo — login + super admin တွင် သုံး */
+    function main_logo_url(): string
+    {
+        return asset('img/rno-logo.png');
+    }
+}

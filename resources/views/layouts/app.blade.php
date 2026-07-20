@@ -5,22 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', shop_name()) — {{ shop_name() }}</title>
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}?v=3">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}?v=4">
 </head>
 <body>
 @php $u = auth()->user(); @endphp
 <div class="app">
     <aside class="sidebar" id="sidebar">
         <div class="brand">
-            @if(shop_logo_url())
+            @php $cShop = current_shop(); @endphp
+            @if(! $cShop)
+                {{-- Super Admin / platform --}}
+                <div style="background:#fff;border-radius:10px;padding:8px;display:flex;align-items:center;justify-content:center">
+                    <img src="{{ main_logo_url() }}" alt="{{ __('app.app_name') }}" style="width:100%;display:block">
+                </div>
+            @elseif($cShop->logoUrl())
                 <b style="display:flex;align-items:center;gap:8px">
-                    <img src="{{ shop_logo_url() }}" alt="" style="height:26px;width:26px;object-fit:contain;border-radius:6px">
+                    <img src="{{ $cShop->logoUrl() }}" alt="" style="height:26px;width:26px;object-fit:contain;border-radius:6px">
                     {{ shop_name() }}
                 </b>
+                <span>{{ shop_tagline() }}</span>
             @else
                 <b>🌾 {{ shop_name() }}</b>
+                <span>{{ shop_tagline() }}</span>
             @endif
-            <span>{{ shop_tagline() }}</span>
         </div>
         <nav>
             @php $r = Route::currentRouteName(); @endphp
