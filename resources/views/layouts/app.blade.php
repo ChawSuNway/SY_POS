@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="{{ app()->getLocale() }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>@yield('title', shop_name()) — {{ shop_name() }}</title>
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}?v=3">
+</head>
+<body>
+@php $u = auth()->user(); @endphp
+<div class="app">
+    <aside class="sidebar" id="sidebar">
+        <div class="brand">
+            @if(shop_logo_url())
+                <b style="display:flex;align-items:center;gap:8px">
+                    <img src="{{ shop_logo_url() }}" alt="" style="height:26px;width:26px;object-fit:contain;border-radius:6px">
+                    {{ shop_name() }}
+                </b>
+            @else
+                <b>🌾 {{ shop_name() }}</b>
+            @endif
+            <span>{{ shop_tagline() }}</span>
+        </div>
+        <nav>
+            @php $r = Route::currentRouteName(); @endphp
+            <a class="nav-link {{ $r=='dashboard'?'active':'' }}" href="{{ route('dashboard') }}">
+                <span class="ic">📊</span> {{ __('app.dashboard') }}</a>
+
+            <div class="nav-group">{{ __('app.pos') }}</div>
+            <a class="nav-link {{ $r=='sales.create'?'active':'' }}" href="{{ route('sales.create') }}">
+                <span class="ic">🛒</span> {{ __('app.pos') }}</a>
+            <a class="nav-link {{ $r=='sales.index'?'active':'' }}" href="{{ route('sales.index') }}">
+                <span class="ic">🧾</span> {{ __('app.sales') }}</a>
+            <a class="nav-link {{ str_starts_with($r,'orders.')?'active':'' }}" href="{{ route('orders.index') }}">
+                <span class="ic">📋</span> {{ __('app.orders') }}</a>
+            <a class="nav-link {{ str_starts_with($r,'customers.')?'active':'' }}" href="{{ route('customers.index') }}">
+                <span class="ic">🧑</span> {{ __('app.customers') }}</a>
+
+            @if($u->hasAtLeast('manager'))
+            <div class="nav-group">{{ __('app.inventory') }} / {{ __('app.reports') }}</div>
+            <a class="nav-link {{ $r=='purchases.index'||$r=='purchases.create'||$r=='purchases.show'?'active':'' }}" href="{{ route('purchases.index') }}">
+                <span class="ic">📥</span> {{ __('app.purchases') }}</a>
+            <a class="nav-link {{ str_starts_with($r,'suppliers.')?'active':'' }}" href="{{ route('suppliers.index') }}">
+                <span class="ic">🚚</span> {{ __('app.suppliers') }}</a>
+            <a class="nav-link {{ str_starts_with($r,'products.')?'active':'' }}" href="{{ route('products.index') }}">
+                <span class="ic">📦</span> {{ __('app.products') }}</a>
+            <a class="nav-link {{ str_starts_with($r,'opening-stock')?'active':'' }}" href="{{ route('opening-stock.index') }}">
+                <span class="ic">🏁</span> {{ __('app.opening_stock') }}</a>
+            <a class="nav-link {{ str_starts_with($r,'reports.')?'active':'' }}" href="{{ route('reports.index') }}">
+                <span class="ic">📈</span> {{ __('app.reports') }}</a>
+            @endif
+
+            @if($u->isAdmin())
+            <div class="nav-group">{{ __('app.settings') }}</div>
+            <a class="nav-link {{ str_starts_with($r,'categories.')?'active':'' }}" href="{{ route('categories.index') }}">
+                <span class="ic">🏷️</span> {{ __('app.categories') }}</a>
+            <a class="nav-link {{ str_starts_with($r,'brands.')?'active':'' }}" href="{{ route('brands.index') }}">
+                <span class="ic">🔖</span> {{ __('app.brands') }}</a>
+            <a class="nav-link {{ str_starts_with($r,'users.')?'active':'' }}" href="{{ route('users.index') }}">
+                <span class="ic">👥</span> {{ __('app.users') }}</a>
+            <a class="nav-link {{ str_starts_with($r,'settings.')?'active':'' }}" href="{{ route('settings.edit') }}">
+                <span class="ic">🏪</span> {{ __('app.shop_settings') }}</a>
+            @endif
+        </nav>
+        <div class="foot">
+            {{ $u->roleLabel() }}<br>
+            <span style="opacity:.7">v1.0 · {{ now()->format('Y') }}</span>
+        </div>
+    </aside>
+
+    <div class="main">
+        <header class="topbar">
+            <div style="display:flex;align-items:center;gap:12px">
+                <button class="btn ghost sm no-print" onclick="document.getElementById('sidebar').classList.toggle('open')" style="display:none" id="menuBtn">☰</button>
+                <div class="page-title">@yield('title', __('app.dashboard'))</div>
+            </div>
+            <div class="right">
+                <div class="locale">
+                    <a href="{{ route('locale.switch','my') }}" class="{{ app()->getLocale()=='my'?'on':'' }}">မြန်မာ</a>
+                    <a href="{{ route('locale.switch','en') }}" class="{{ app()->getLocale()=='en'?'on':'' }}">EN</a>
+                </div>
+                <div class="userchip">
+                    <div class="avatar">{{ mb_substr($u->name,0,1) }}</div>
+                    <div class="meta">
+                        <b>{{ $u->name }}</b>
+                        <span>{{ $u->roleLabel() }}</span>
+                    </div>
+                </div>
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button class="btn ghost sm" type="submit">{{ __('app.logout') }} →</button>
+                </form>
+            </div>
+        </header>
+
+        <div class="content">
+            @if(session('success'))
+                <div class="alert success">✅ {{ session('success') }}</div>
+            @endif
+            @if(session('error'))
+                <div class="alert error">⛔ {{ session('error') }}</div>
+            @endif
+            @if($errors->any())
+                <div class="err-box">
+                    <b>⚠️ {{ __('app.error') ?? 'Error' }}</b>
+                    <ul style="margin:6px 0 0;padding-left:18px">
+                        @foreach($errors->all() as $e)<li>{{ $e }}</li>@endforeach
+                    </ul>
+                </div>
+            @endif
+
+            @yield('content')
+        </div>
+    </div>
+</div>
+<script>
+    window.CSRF = document.querySelector('meta[name=csrf-token]').content;
+    if(window.innerWidth<=760){document.getElementById('menuBtn').style.display='inline-flex';}
+</script>
+@stack('scripts')
+</body>
+</html>

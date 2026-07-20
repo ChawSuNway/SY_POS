@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(\"C:/xampp/php/php.exe\" -v)",
+      "Bash(npm -v)",
+      "Read(//c/xampp/mysql/bin/**)",
+      "Bash(break)",
+      "Bash(cd \"d:/AI_Project/shweyee\" *)",
+      "Read(//tmp/**)",
+      "Bash(grep -oE \"local\\\\.ERROR: [^\\\\\"]{0,220}\" storage/logs/laravel.log)",
+      "Bash(cd \"C:/Users/BCMSSTLP10/.claude/projects/d--AI-Project-shweyee/memory\" *)",
+      "Read(//c/Users/BCMSSTLP10/.claude/projects/d--AI-Project-shweyee/memory/**)",
+      "Bash(xargs grep -ln \"function mmk\\\\|function qty_fmt\")",
+      "Bash(/c/xampp/php/php.exe artisan *)",
+      "Bash(/c/xampp/php/php.exe artisan serve --port=8899 >/tmp/serve.log 2>&1 & *)"
+    ],
+    "additionalDirectories": [
+      "\\tmp"
+    ]
+  }
+}
