@@ -48,7 +48,7 @@ class CategoryController extends Controller
             'type' => ['required', Rule::in(['rice', 'oil'])],
             'name' => [
                 'required', 'string', 'max:100',
-                Rule::unique('categories')->where(fn ($q) => $q->where('type', $request->type))->ignore($ignoreId),
+                Rule::unique('categories')->where(fn ($q) => $q->where('type', $request->type)->where('shop_id', current_shop_id()))->ignore($ignoreId),
             ],
             'is_active' => ['boolean'],
         ]) + ['is_active' => $request->boolean('is_active', true)];

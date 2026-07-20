@@ -115,6 +115,7 @@ class ProductController extends Controller
                 'required', 'exists:brands,id',
                 // type + category + brand ပေါင်းစပ်မှု ထပ်နေခြင်း မဖြစ်စေရန်
                 Rule::unique('products')->where(fn ($q) => $q
+                    ->where('shop_id', current_shop_id())
                     ->where('type', $request->type)
                     ->where('category_id', $request->category_id)
                     ->where('brand_id', $request->brand_id))->ignore($ignoreId),

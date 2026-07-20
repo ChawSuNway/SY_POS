@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Concerns\BelongsToShop;
 
 class Purchase extends Model
 {
+    use BelongsToShop;
+
     protected $fillable = [
         'purchase_no', 'purchase_date', 'user_id', 'supplier_id',
         'supplier_name', 'total_cost', 'note',
