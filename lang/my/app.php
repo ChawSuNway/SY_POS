@@ -152,6 +152,28 @@ return [
     'delivery_address' => 'ပို့ဆောင်ရမည့် လိပ်စာ',
     'delivery_address_hint' => 'ပစ္စည်း ပို့ဆောင်ရမည့် လိပ်စာ (မဖြည့်လည်း ရသည်)',
 
+    // Multi-shop / Super Admin
+    'administration'     => 'စီမံခန့်ခွဲမှု',
+    'shops'              => 'ဆိုင်များ',
+    'shop'               => 'ဆိုင်',
+    'add_shop'           => 'ဆိုင် အသစ်',
+    'edit_shop'          => 'ဆိုင် ပြင်ဆင်ရန်',
+    'shop_admin_account' => 'ဆိုင် Admin အကောင့်',
+    'shop_admin_hint'    => 'ဤဆိုင်ကို စီမံမည့် ပထမ Admin account ဖန်တီးပါ။',
+    'admin_name'         => 'Admin အမည်',
+    'admin_email'        => 'Admin အီးမေးလ်',
+    'admin_password'     => 'Admin စကားဝှက်',
+    'shop_has_data'      => 'ဤဆိုင်တွင် ကုန်ပစ္စည်း/အရောင်း data ရှိနေသဖြင့် ဖျက်၍မရပါ။ (ပိတ်ထားနိုင်သည်)',
+    'staff'              => 'ဝန်ထမ်း',
+    'staff_count'        => 'ဝန်ထမ်း',
+    'product_count'      => 'ကုန်ပစ္စည်း',
+    'sales_count'        => 'အရောင်း',
+    'today_revenue'      => 'ယနေ့ ရောင်းအား',
+    'all_shops'          => 'ဆိုင်အားလုံး',
+    'total_shops'        => 'ဆိုင် စုစုပေါင်း',
+    'active_shops'       => 'ဖွင့်ထားသော ဆိုင်',
+    'manage'             => 'စီမံရန်',
+
     // Shop settings
     'shop_settings'   => 'ဆိုင်အချက်အလက်',
     'shop_info'       => 'ဆိုင် အချက်အလက်',

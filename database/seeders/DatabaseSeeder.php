@@ -15,21 +15,36 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // ---------- Users / Roles ----------
+        // ---------- Shop #1 + Super Admin ----------
+        $shop = \App\Models\Shop::firstOrCreate(
+            ['name' => 'ရွှေရည်'],
+            ['name_en' => 'Shwe Yee', 'is_active' => true]
+        );
+
+        User::updateOrCreate(['email' => 'super@shweyee.test'], [
+            'name' => 'Super Admin', 'role' => User::ROLE_SUPER_ADMIN,
+            'shop_id' => null, 'password' => 'password', 'is_active' => true,
+        ]);
+
+        // ---------- Users / Roles (Shop #1) ----------
         User::updateOrCreate(['email' => 'admin@shweyee.test'], [
-            'name' => 'Admin (ဦးစိုးဝင်း)', 'role' => 'admin',
+            'name' => 'Admin (ဦးစိုးဝင်း)', 'role' => 'admin', 'shop_id' => $shop->id,
             'password' => 'password', 'is_active' => true,
         ]);
         User::updateOrCreate(['email' => 'manager@shweyee.test'], [
-            'name' => 'Manager (ဒေါ်မြင့်မြင့်)', 'role' => 'manager',
+            'name' => 'Manager (ဒေါ်မြင့်မြင့်)', 'role' => 'manager', 'shop_id' => $shop->id,
             'password' => 'password', 'is_active' => true,
         ]);
         User::updateOrCreate(['email' => 'cashier@shweyee.test'], [
-            'name' => 'Cashier (မသီတာ)', 'role' => 'cashier',
+            'name' => 'Cashier (မသီတာ)', 'role' => 'cashier', 'shop_id' => $shop->id,
             'password' => 'password', 'is_active' => true,
         ]);
 
         $admin = User::where('email', 'admin@shweyee.test')->first();
+
+        // ဤ admin အဖြစ် login — နောက်ဆက် model create များ BelongsToShop hook ဖြင့် shop_id အလိုအလျောက်ရ
+        auth()->login($admin);
+
         $inventory = app(InventoryService::class);
 
         // ---------- Customers (ဖောက်သည်) ----------

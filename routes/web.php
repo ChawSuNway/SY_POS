@@ -13,6 +13,7 @@ use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\ShopController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -33,7 +34,7 @@ Route::middleware('auth')->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // ---- POS / Sales : cashier နှင့် အထက် ----
-    Route::middleware('role:cashier')->group(function () {
+    Route::middleware(['role:cashier', 'shop'])->group(function () {
         Route::get('pos', [SaleController::class, 'create'])->name('sales.create');
         Route::post('pos', [SaleController::class, 'store'])->name('sales.store');
         Route::get('sales', [SaleController::class, 'index'])->name('sales.index');
@@ -52,7 +53,7 @@ Route::middleware('auth')->group(function () {
     });
 
     // ---- Purchases + Products + Reports : manager နှင့် အထက် ----
-    Route::middleware('role:manager')->group(function () {
+    Route::middleware(['role:manager', 'shop'])->group(function () {
         Route::resource('purchases', PurchaseController::class)->except(['edit', 'update']);
 
         Route::resource('suppliers', SupplierController::class);
@@ -72,13 +73,18 @@ Route::middleware('auth')->group(function () {
     });
 
     // ---- Categories, Brands, Users : admin only ----
-    Route::middleware('role:admin')->group(function () {
+    Route::middleware(['role:admin', 'shop'])->group(function () {
         Route::resource('categories', CategoryController::class)->except(['show', 'create', 'edit']);
         Route::resource('brands', BrandController::class)->except(['show', 'create', 'edit']);
         Route::resource('users', UserController::class)->except(['show']);
 
-        // ဆိုင်အချက်အလက် / logo ဆက်တင်
+        // ဆိုင်အချက်အလက် / logo ဆက်တင် (မိမိဆိုင်)
         Route::get('settings', [SettingController::class, 'edit'])->name('settings.edit');
         Route::put('settings', [SettingController::class, 'update'])->name('settings.update');
+    });
+
+    // ---- Super Admin only : ဆိုင်များ စီမံ ----
+    Route::middleware('role:super_admin')->group(function () {
+        Route::resource('shops', ShopController::class)->except(['show']);
     });
 });

@@ -152,6 +152,28 @@ return [
     'delivery_address' => 'Delivery address',
     'delivery_address_hint' => 'Where to deliver the goods (optional)',
 
+    // Multi-shop / Super Admin
+    'administration'     => 'Administration',
+    'shops'              => 'Shops',
+    'shop'               => 'Shop',
+    'add_shop'           => 'New shop',
+    'edit_shop'          => 'Edit shop',
+    'shop_admin_account' => 'Shop admin account',
+    'shop_admin_hint'    => 'Create the first Admin account that will manage this shop.',
+    'admin_name'         => 'Admin name',
+    'admin_email'        => 'Admin email',
+    'admin_password'     => 'Admin password',
+    'shop_has_data'      => 'This shop has products/sales data and cannot be deleted. (You can deactivate it.)',
+    'staff'              => 'Staff',
+    'staff_count'        => 'Staff',
+    'product_count'      => 'Products',
+    'sales_count'        => 'Sales',
+    'today_revenue'      => "Today's revenue",
+    'all_shops'          => 'All shops',
+    'total_shops'        => 'Total shops',
+    'active_shops'       => 'Active shops',
+    'manage'             => 'Manage',
+
     // Shop settings
     'shop_settings'   => 'Shop settings',
     'shop_info'       => 'Shop information',

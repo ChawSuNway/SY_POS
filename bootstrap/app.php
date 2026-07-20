@@ -16,6 +16,7 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
         $middleware->alias([
             'role' => \App\Http\Middleware\EnsureUserHasRole::class,
+            'shop' => \App\Http\Middleware\RequireShop::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

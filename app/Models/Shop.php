@@ -18,6 +18,16 @@ class Shop extends Model
         return $this->hasMany(User::class);
     }
 
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
+
+    public function sales()
+    {
+        return $this->hasMany(Sale::class);
+    }
+
     /** locale အလိုက် ဆိုင်နာမည် */
     public function displayName(): string
     {

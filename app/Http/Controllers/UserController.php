@@ -12,9 +12,17 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::orderBy('role')->orderBy('name')->paginate(20);
+        // မိမိဆိုင်၏ ဝန်ထမ်းများသာ
+        $users = User::where('shop_id', current_shop_id())
+            ->orderBy('role')->orderBy('name')->paginate(20);
 
         return view('users.index', compact('users'));
+    }
+
+    /** route-bound user သည် မိမိဆိုင်၏ ဝန်ထမ်း ဟုတ်မှန်ကြောင်း စစ် (အခြားဆိုင်/super admin ကို မကိုင်စေရန်) */
+    private function authorizeShop(User $user): void
+    {
+        abort_unless($user->shop_id === current_shop_id(), 404);
     }
 
     public function create()
@@ -37,6 +45,7 @@ class UserController extends Controller
             'email'     => $data['email'],
             'role'      => $data['role'],
             'password'  => $data['password'],
+            'shop_id'   => current_shop_id(),
             'is_active' => $request->boolean('is_active', true),
         ]);
 
@@ -45,11 +54,15 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
+        $this->authorizeShop($user);
+
         return view('users.edit', compact('user'));
     }
 
     public function update(Request $request, User $user)
     {
+        $this->authorizeShop($user);
+
         $data = $request->validate([
             'name'     => ['required', 'string', 'max:100'],
             'email'    => ['required', 'email', Rule::unique('users', 'email')->ignore($user->id)],
@@ -78,6 +91,8 @@ class UserController extends Controller
 
     public function destroy(Request $request, User $user)
     {
+        $this->authorizeShop($user);
+
         if ($user->id === $request->user()->id) {
             return back()->with('error', 'မိမိကိုယ်တိုင်ကို ဖျက်၍မရပါ။');
         }

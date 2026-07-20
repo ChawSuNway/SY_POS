@@ -27,6 +27,13 @@
             <a class="nav-link {{ $r=='dashboard'?'active':'' }}" href="{{ route('dashboard') }}">
                 <span class="ic">📊</span> {{ __('app.dashboard') }}</a>
 
+            @if($u->isSuperAdmin())
+            {{-- Super Admin — ဆိုင်များ စီမံသာ --}}
+            <div class="nav-group">{{ __('app.administration') }}</div>
+            <a class="nav-link {{ str_starts_with($r,'shops.')?'active':'' }}" href="{{ route('shops.index') }}">
+                <span class="ic">🏬</span> {{ __('app.shops') }}</a>
+            @else
+
             <div class="nav-group">{{ __('app.pos') }}</div>
             <a class="nav-link {{ $r=='sales.create'?'active':'' }}" href="{{ route('sales.create') }}">
                 <span class="ic">🛒</span> {{ __('app.pos') }}</a>
@@ -61,6 +68,7 @@
                 <span class="ic">👥</span> {{ __('app.users') }}</a>
             <a class="nav-link {{ str_starts_with($r,'settings.')?'active':'' }}" href="{{ route('settings.edit') }}">
                 <span class="ic">🏪</span> {{ __('app.shop_settings') }}</a>
+            @endif
             @endif
         </nav>
         <div class="foot">

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Concerns\ManagesLogo;
 use App\Models\Shop;
 use Illuminate\Http\Request;
 
@@ -10,6 +11,8 @@ use Illuminate\Http\Request;
  */
 class SettingController extends Controller
 {
+    use ManagesLogo;
+
     public function edit()
     {
         $shop = current_shop();
@@ -44,34 +47,15 @@ class SettingController extends Controller
         ]);
 
         if ($request->hasFile('logo')) {
-            $this->deleteLogo($shop);
+            $this->deleteLogoFile($shop->logo);
             $shop->logo = $this->storeLogo($request->file('logo'));
         } elseif ($request->boolean('remove_logo')) {
-            $this->deleteLogo($shop);
+            $this->deleteLogoFile($shop->logo);
             $shop->logo = null;
         }
 
         $shop->save();
 
         return redirect()->route('settings.edit')->with('success', __('app.saved'));
-    }
-
-    private function storeLogo($file): string
-    {
-        $dir = public_path('uploads');
-        if (! is_dir($dir)) {
-            mkdir($dir, 0755, true);
-        }
-        $name = 'logo_'.time().'_'.mt_rand(1000, 9999).'.'.$file->getClientOriginalExtension();
-        $file->move($dir, $name);
-
-        return 'uploads/'.$name;
-    }
-
-    private function deleteLogo(Shop $shop): void
-    {
-        if ($shop->logo && is_file(public_path($shop->logo))) {
-            @unlink(public_path($shop->logo));
-        }
     }
 }
