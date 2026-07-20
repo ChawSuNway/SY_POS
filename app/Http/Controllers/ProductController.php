@@ -13,7 +13,7 @@ class ProductController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Product::with(['category', 'brand', 'units']);
+        $query = Product::with(['category.parent', 'brand', 'units']);
 
         if ($request->filled('type')) {
             $query->where('type', $request->type);

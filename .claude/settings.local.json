@@ -19,7 +19,11 @@
       "Bash(/c/xampp/php/php.exe \"C:/Users/BCMSST~1/AppData/Local/Temp/claude/d--AI-Project-shweyee/bfd701e3-405e-453e-9807-5279a3d7480d/scratchpad/inject_trait.php\")",
       "Bash(/c/xampp/php/php.exe /d/AI_Project/shweyee/artisan tinker '--execute= *)",
       "Bash(git commit -q -m 'Phase 2: per-shop data isolation across all domain tables *)",
-      "Bash(git commit -q -m 'Phase 3: super-admin shop management + per-shop staff scoping *)"
+      "Bash(git commit -q -m 'Phase 3: super-admin shop management + per-shop staff scoping *)",
+      "Bash(cd /tmp)",
+      "Bash(curl -s -b ja.txt -o /dev/null -w '%{http_code}' http://127.0.0.1:8899/products/create)",
+      "Bash(echo \"products/create HTTP: $\\(curl -s -b ja.txt -o /dev/null -w '%{http_code}' http://127.0.0.1:8899/products/create\\)\")",
+      "Bash(curl -s -b ja.txt http://127.0.0.1:8899/products/create)"
     ],
     "additionalDirectories": [
       "\\tmp"

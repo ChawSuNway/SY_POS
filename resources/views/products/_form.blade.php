@@ -30,12 +30,11 @@
                 </div>
                 <div class="field">
                     <label>{{ __('app.category') }}</label>
-                    <select name="category_id" id="categorySel">
-                        @foreach($categories as $c)
-                            <option value="{{ $c->id }}" data-type="{{ $c->type }}"
-                                {{ old('category_id', $isEdit ? $product->category_id : '')==$c->id?'selected':'' }}>{{ $c->name }}</option>
-                        @endforeach
-                    </select>
+                    <select id="parentCat"><!-- JS populated --></select>
+                </div>
+                <div class="field">
+                    <label>{{ __('app.sub_category') }}</label>
+                    <select name="category_id" id="categorySel"><!-- JS populated --></select>
                 </div>
                 <div class="field">
                     <label>{{ __('app.brand') }}</label>
@@ -102,8 +101,16 @@
 
 @push('scripts')
 <script>
+@php
+    $catJson = $categories->map(fn ($c) => [
+        'id' => $c->id, 'name' => $c->name, 'type' => $c->type, 'parent_id' => $c->parent_id,
+    ])->values();
+    $selectedCat = old('category_id', $isEdit ? $product->category_id : null);
+@endphp
 const OLD_UNITS = @json($oldUnits);
 const CAN_PRICE = @json((bool)$canSetPrice);
+const CATEGORIES = @json($catJson);
+const SELECTED_CAT = @json($selectedCat);
 const RICE_PRESET = [
     {label:'အိတ်', factor:384}, {label:'ပြည်', factor:8}, {label:'ဗူး', factor:1},
 ];
@@ -143,7 +150,7 @@ rows.addEventListener('click', e=>{
     }
 });
 
-// type -> filter categories/brands + suggest base unit & preset units (only when empty/new)
+// type -> filter brands + suggest base unit & preset units (only when empty/new)
 const pType = document.getElementById('pType');
 function filterOptions(sel, type){
     let firstVisible = null;
@@ -154,21 +161,58 @@ function filterOptions(sel, type){
     });
     if(sel.selectedOptions[0]?.hidden && firstVisible) sel.value = firstVisible.value;
 }
+
+// ---- Category cascade (parent -> sub) ----
+const parentSel = document.getElementById('parentCat');
+const catSel    = document.getElementById('categorySel');
+const GENERAL   = @json('— '.__('app.general').' —');
+
+function populateParents(type, selectId){
+    parentSel.innerHTML = '';
+    CATEGORIES.filter(c=>c.parent_id===null && c.type===type).forEach(c=>{
+        const o = new Option(c.name, c.id);
+        if(selectId && c.id===selectId) o.selected = true;
+        parentSel.add(o);
+    });
+}
+function populateSubs(parentId, selectLeafId){
+    catSel.innerHTML = '';
+    // parent ကိုယ်တိုင် (ယေဘုယျ) — sub မရွေးလျှင် parent ကို သုံး
+    const gen = new Option(GENERAL, parentId);
+    catSel.add(gen);
+    CATEGORIES.filter(c=>c.parent_id===parentId).forEach(c=>{
+        const o = new Option('▸ '+c.name, c.id);
+        catSel.add(o);
+    });
+    catSel.value = selectLeafId ?? parentId;
+}
+function rebuildCategory(type, leafId){
+    // leafId ရှိလျှင် ၎င်း၏ parent ကို ရှာ
+    let parentId = null;
+    if(leafId){
+        const cat = CATEGORIES.find(c=>c.id===leafId);
+        if(cat) parentId = cat.parent_id ?? cat.id;
+    }
+    populateParents(type, parentId);
+    const chosenParent = parseInt(parentSel.value) || (parentSel.options[0] && parseInt(parentSel.options[0].value));
+    populateSubs(chosenParent || null, leafId ?? null);
+}
+parentSel.addEventListener('change', ()=>populateSubs(parseInt(parentSel.value)));
+
 function onTypeChange(applyPreset){
     const t = pType.value;
-    filterOptions(document.getElementById('categorySel'), t);
     filterOptions(document.getElementById('brandSel'), t);
+    rebuildCategory(t, null);
     const baseInput = document.getElementById('baseUnit');
     if(applyPreset){
         baseInput.value = t==='rice' ? 'ဗူး' : 'ဆယ်သား';
-        // reset unit rows to preset
         rows.innerHTML=''; uIdx=0;
         (t==='rice'?RICE_PRESET:OIL_PRESET).forEach(u=>addRow({label:u.label,factor:u.factor,selling_price:0}));
     }
 }
 pType.addEventListener('change', ()=>onTypeChange(true));
-// initial filter (no preset overwrite)
-filterOptions(document.getElementById('categorySel'), pType.value);
+// initial (no preset overwrite) — preselect existing category if editing
 filterOptions(document.getElementById('brandSel'), pType.value);
+rebuildCategory(pType.value, SELECTED_CAT);
 </script>
 @endpush

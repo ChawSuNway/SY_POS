@@ -174,6 +174,13 @@ return [
     'active_shops'       => 'ဖွင့်ထားသော ဆိုင်',
     'manage'             => 'စီမံရန်',
 
+    // Categories / sub-categories
+    'parent_category'    => 'ပင်မ အမျိုးအစား',
+    'sub_category'       => 'အမျိုးအစားခွဲ',
+    'general'            => 'ယေဘုယျ',
+    'add'                => 'ထည့်ရန်',
+    'category_has_children' => 'ဤအမျိုးအစားတွင် အမျိုးအစားခွဲများ ရှိနေသဖြင့် ဖျက်၍မရပါ။ (အရင် ဖျက်ပါ)',
+
     // Shop settings
     'shop_settings'   => 'ဆိုင်အချက်အလက်',
     'shop_info'       => 'ဆိုင် အချက်အလက်',

@@ -64,7 +64,7 @@ class Product extends Model
     public function displayName(): string
     {
         $parts = array_filter([
-            optional($this->category)->name,
+            optional($this->category)->fullName(),
             optional($this->brand)->name,
         ]);
         $base = implode(' - ', $parts);

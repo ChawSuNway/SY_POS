@@ -174,6 +174,13 @@ return [
     'active_shops'       => 'Active shops',
     'manage'             => 'Manage',
 
+    // Categories / sub-categories
+    'parent_category'    => 'Parent category',
+    'sub_category'       => 'Sub-category',
+    'general'            => 'General',
+    'add'                => 'Add',
+    'category_has_children' => 'This category has sub-categories and cannot be deleted. (Delete them first.)',
+
     // Shop settings
     'shop_settings'   => 'Shop settings',
     'shop_info'       => 'Shop information',
