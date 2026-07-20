@@ -2,68 +2,76 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Setting;
+use App\Models\Shop;
 use Illuminate\Http\Request;
 
+/**
+ * ဆိုင် Admin — မိမိဆိုင်၏ အချက်အလက် / logo ပြင်ဆင်ခြင်း (current shop)။
+ */
 class SettingController extends Controller
 {
-    /** ဆိုင်အချက်အလက် ချိန်ညှိသည့် screen */
     public function edit()
     {
-        return view('settings.edit');
+        $shop = current_shop();
+        abort_unless($shop, 404);
+
+        return view('settings.edit', compact('shop'));
     }
 
     public function update(Request $request)
     {
+        $shop = current_shop();
+        abort_unless($shop, 404);
+
         $data = $request->validate([
-            'shop_name'       => ['required', 'string', 'max:150'],
-            'shop_name_en'    => ['nullable', 'string', 'max:150'],
-            'shop_tagline'    => ['nullable', 'string', 'max:200'],
-            'shop_tagline_en' => ['nullable', 'string', 'max:200'],
-            'shop_address'    => ['nullable', 'string', 'max:300'],
-            'shop_phone'      => ['nullable', 'string', 'max:100'],
-            'logo'            => ['nullable', 'image', 'mimes:png,jpg,jpeg,webp,gif', 'max:2048'],
-            'remove_logo'     => ['nullable', 'boolean'],
+            'name'        => ['required', 'string', 'max:150'],
+            'name_en'     => ['nullable', 'string', 'max:150'],
+            'tagline'     => ['nullable', 'string', 'max:200'],
+            'tagline_en'  => ['nullable', 'string', 'max:200'],
+            'address'     => ['nullable', 'string', 'max:300'],
+            'phone'       => ['nullable', 'string', 'max:100'],
+            'logo'        => ['nullable', 'image', 'mimes:png,jpg,jpeg,webp,gif', 'max:2048'],
+            'remove_logo' => ['nullable', 'boolean'],
         ]);
 
-        $pairs = [
-            'shop_name'       => $data['shop_name'],
-            'shop_name_en'    => $data['shop_name_en'] ?? '',
-            'shop_tagline'    => $data['shop_tagline'] ?? '',
-            'shop_tagline_en' => $data['shop_tagline_en'] ?? '',
-            'shop_address'    => $data['shop_address'] ?? '',
-            'shop_phone'      => $data['shop_phone'] ?? '',
-        ];
+        $shop->fill([
+            'name'       => $data['name'],
+            'name_en'    => $data['name_en'] ?? null,
+            'tagline'    => $data['tagline'] ?? null,
+            'tagline_en' => $data['tagline_en'] ?? null,
+            'address'    => $data['address'] ?? null,
+            'phone'      => $data['phone'] ?? null,
+        ]);
 
-        // logo — အသစ်တင်လျှင် သိမ်း / ဖယ်လျှင် ဖျက်
         if ($request->hasFile('logo')) {
-            $this->deleteCurrentLogo();
-
-            $dir = public_path('uploads');
-            if (! is_dir($dir)) {
-                mkdir($dir, 0755, true);
-            }
-
-            $file = $request->file('logo');
-            $name = 'logo_'.time().'.'.$file->getClientOriginalExtension();
-            $file->move($dir, $name);
-
-            $pairs['shop_logo'] = 'uploads/'.$name;
+            $this->deleteLogo($shop);
+            $shop->logo = $this->storeLogo($request->file('logo'));
         } elseif ($request->boolean('remove_logo')) {
-            $this->deleteCurrentLogo();
-            $pairs['shop_logo'] = '';
+            $this->deleteLogo($shop);
+            $shop->logo = null;
         }
 
-        Setting::putMany($pairs);
+        $shop->save();
 
         return redirect()->route('settings.edit')->with('success', __('app.saved'));
     }
 
-    private function deleteCurrentLogo(): void
+    private function storeLogo($file): string
     {
-        $current = Setting::get('shop_logo');
-        if ($current && is_file(public_path($current))) {
-            @unlink(public_path($current));
+        $dir = public_path('uploads');
+        if (! is_dir($dir)) {
+            mkdir($dir, 0755, true);
+        }
+        $name = 'logo_'.time().'_'.mt_rand(1000, 9999).'.'.$file->getClientOriginalExtension();
+        $file->move($dir, $name);
+
+        return 'uploads/'.$name;
+    }
+
+    private function deleteLogo(Shop $shop): void
+    {
+        if ($shop->logo && is_file(public_path($shop->logo))) {
+            @unlink(public_path($shop->logo));
         }
     }
 }

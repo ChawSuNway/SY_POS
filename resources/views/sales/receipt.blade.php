@@ -21,10 +21,11 @@
         <h2>🌾 {{ shop_name() }}</h2>
     @endif
     <div class="r-sub">{{ shop_tagline() }}</div>
-    @if(setting('shop_address') || setting('shop_phone'))
+    @php $shop = current_shop(); @endphp
+    @if($shop && ($shop->address || $shop->phone))
         <div class="r-sub" style="font-size:.72rem">
-            @if(setting('shop_address')){{ setting('shop_address') }}@endif
-            @if(setting('shop_phone')) · ☎ {{ setting('shop_phone') }}@endif
+            @if($shop->address){{ $shop->address }}@endif
+            @if($shop->phone) · ☎ {{ $shop->phone }}@endif
         </div>
     @endif
 

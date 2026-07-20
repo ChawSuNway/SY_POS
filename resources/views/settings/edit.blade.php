@@ -13,27 +13,27 @@
             <div class="card-body">
                 <div class="field">
                     <label>{{ __('app.shop_name_my') }} <span style="color:var(--danger)">*</span></label>
-                    <input type="text" name="shop_name" value="{{ old('shop_name', setting('shop_name', __('app.app_name'))) }}" required>
+                    <input type="text" name="name" value="{{ old('name', $shop->name) }}" required>
                 </div>
                 <div class="field">
                     <label>{{ __('app.shop_name_en') }}</label>
-                    <input type="text" name="shop_name_en" value="{{ old('shop_name_en', setting('shop_name_en')) }}">
+                    <input type="text" name="name_en" value="{{ old('name_en', $shop->name_en) }}">
                 </div>
                 <div class="field">
                     <label>{{ __('app.shop_tagline_my') }}</label>
-                    <input type="text" name="shop_tagline" value="{{ old('shop_tagline', setting('shop_tagline', __('app.tagline'))) }}">
+                    <input type="text" name="tagline" value="{{ old('tagline', $shop->tagline) }}">
                 </div>
                 <div class="field">
                     <label>{{ __('app.shop_tagline_en') }}</label>
-                    <input type="text" name="shop_tagline_en" value="{{ old('shop_tagline_en', setting('shop_tagline_en')) }}">
+                    <input type="text" name="tagline_en" value="{{ old('tagline_en', $shop->tagline_en) }}">
                 </div>
                 <div class="field">
                     <label>{{ __('app.shop_phone') }}</label>
-                    <input type="text" name="shop_phone" value="{{ old('shop_phone', setting('shop_phone')) }}">
+                    <input type="text" name="phone" value="{{ old('phone', $shop->phone) }}">
                 </div>
                 <div class="field">
                     <label>{{ __('app.shop_address') }}</label>
-                    <input type="text" name="shop_address" value="{{ old('shop_address', setting('shop_address')) }}">
+                    <input type="text" name="address" value="{{ old('address', $shop->address) }}">
                 </div>
             </div>
         </div>
@@ -58,7 +58,7 @@
                         <small style="color:var(--muted,#64748b);display:block;margin-top:6px">{{ __('app.logo_hint') }}</small>
                     </div>
 
-                    @if(setting('shop_logo'))
+                    @if($shop->logo)
                         <label class="check" style="align-self:flex-start">
                             <input type="checkbox" name="remove_logo" value="1">
                             {{ __('app.remove_logo') }}
