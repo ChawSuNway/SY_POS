@@ -6,6 +6,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DebtController;
+use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\OpeningStockController;
 use App\Http\Controllers\OrderController;
@@ -79,6 +80,11 @@ Route::middleware('auth')->group(function () {
         // ပေးရန်ရှိ အကြွေး (အ၀ယ် မကျေငွေ) — manager နှင့် အထက်
         Route::get('debts/payable', [DebtController::class, 'payable'])->name('debts.payable');
         Route::post('debts/payable/{purchase}/pay', [DebtController::class, 'payPayable'])->name('debts.payable.pay');
+
+        // အထွေထွေ အသုံးစရိတ်
+        Route::get('expenses', [ExpenseController::class, 'index'])->name('expenses.index');
+        Route::post('expenses', [ExpenseController::class, 'store'])->name('expenses.store');
+        Route::delete('expenses/{expense}', [ExpenseController::class, 'destroy'])->name('expenses.destroy');
 
         Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
         Route::get('reports/sales', [ReportController::class, 'sales'])->name('reports.sales');

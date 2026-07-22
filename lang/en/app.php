@@ -212,6 +212,16 @@ return [
     'paid_partial_hint'       => 'Paid amount (leave blank = fully paid)',
     'no_debts'                => 'No outstanding debts 🎉',
 
+    // Expenses
+    'expenses'         => 'Expenses',
+    'expense'          => 'Expense',
+    'expense_date'     => 'Date',
+    'expense_category' => 'Category',
+    'add_expense'      => 'Add expense',
+    'month_total'      => 'Month total',
+    'by_category'      => 'By category',
+    'recorded_by'      => 'Recorded by',
+
     // Shop settings
     'shop_settings'   => 'Shop settings',
     'shop_info'       => 'Shop information',

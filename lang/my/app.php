@@ -212,6 +212,16 @@ return [
     'paid_partial_hint'       => 'ပေးချေငွေ (ဗလာထားလျှင် အပြည့်ချေပြီးဟု သတ်မှတ်မည်)',
     'no_debts'                => 'အကြွေး မရှိပါ 🎉',
 
+    // Expenses / အသုံးစရိတ်
+    'expenses'         => 'အသုံးစရိတ်',
+    'expense'          => 'အသုံးစရိတ်',
+    'expense_date'     => 'ရက်စွဲ',
+    'expense_category' => 'အမျိုးအစား',
+    'add_expense'      => 'အသုံးစရိတ် မှတ်ရန်',
+    'month_total'      => 'လချုပ် စုစုပေါင်း',
+    'by_category'      => 'အမျိုးအစားအလိုက်',
+    'recorded_by'      => 'မှတ်တမ်းတင်သူ',
+
     // Shop settings
     'shop_settings'   => 'ဆိုင်အချက်အလက်',
     'shop_info'       => 'ဆိုင် အချက်အလက်',
