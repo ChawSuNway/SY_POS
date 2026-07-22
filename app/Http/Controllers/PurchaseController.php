@@ -46,6 +46,7 @@ class PurchaseController extends Controller
             'purchase_date'          => ['required', 'date'],
             'supplier_id'            => ['nullable', 'exists:suppliers,id'],
             'supplier_name'          => ['nullable', 'string', 'max:150'],
+            'paid_amount'            => ['nullable', 'numeric', 'min:0'],
             'note'                   => ['nullable', 'string', 'max:500'],
             'items'                  => ['required', 'array', 'min:1'],
             'items.*.product_id'     => ['required', 'exists:products,id'],
@@ -107,7 +108,16 @@ class PurchaseController extends Controller
                 $total += $lineCost;
             }
 
-            $purchase->update(['total_cost' => $total]);
+            // ပေးချေငွေ — ဗလာထားလျှင် အပြည့်ချေပြီးဟု သတ်မှတ်၊ ကျန်ငွေ = ပေးရန်ရှိ အကြွေး
+            $paid = ($data['paid_amount'] ?? null) !== null
+                ? min((float) $data['paid_amount'], $total)
+                : $total;
+
+            $purchase->update([
+                'total_cost'  => $total,
+                'paid_amount' => $paid,
+                'credit_due'  => $total - $paid,
+            ]);
 
             return $purchase;
         });

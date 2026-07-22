@@ -11,12 +11,14 @@ class Purchase extends Model
 
     protected $fillable = [
         'purchase_no', 'purchase_date', 'user_id', 'supplier_id',
-        'supplier_name', 'total_cost', 'note',
+        'supplier_name', 'total_cost', 'paid_amount', 'credit_due', 'note',
     ];
 
     protected $casts = [
         'purchase_date' => 'date',
         'total_cost'    => 'decimal:2',
+        'paid_amount'   => 'decimal:2',
+        'credit_due'    => 'decimal:2',
     ];
 
     public function items()
@@ -32,5 +34,10 @@ class Purchase extends Model
     public function supplier()
     {
         return $this->belongsTo(Supplier::class);
+    }
+
+    public function debtPayments()
+    {
+        return $this->hasMany(DebtPayment::class)->orderByDesc('paid_at');
     }
 }

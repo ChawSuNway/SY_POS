@@ -128,6 +128,14 @@ class SaleController extends Controller
             $total = max(0, $subtotal - $discount);
             $paid  = (float) ($data['paid_amount'] ?? 0);
 
+            // ငွေမပြည့်ချေလျှင် အကြွေး — ပုံမှန်ဖောက်သည် (customer record) ရွေးထားမှသာ ခွင့်ပြု
+            $creditDue = max(0, $total - $paid);
+            if ($creditDue > 0 && empty($data['customer_id'])) {
+                throw ValidationException::withMessages([
+                    'customer_id' => __('app.credit_requires_customer'),
+                ]);
+            }
+
             $sale->update([
                 'subtotal'      => $subtotal,
                 'total'         => $total,
@@ -135,6 +143,7 @@ class SaleController extends Controller
                 'profit'        => $total - $totalCost,
                 'paid_amount'   => $paid,
                 'change_amount' => max(0, $paid - $total),
+                'credit_due'    => $creditDue,
             ]);
 
             return $sale;

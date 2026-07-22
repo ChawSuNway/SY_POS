@@ -62,6 +62,9 @@
         <tr style="font-size:1.05rem"><td><b>{{ __('app.total') }}</b></td><td style="text-align:right"><b>{{ mmk($sale->total) }} Ks</b></td></tr>
         <tr><td>{{ __('app.paid') }}</td><td style="text-align:right">{{ mmk($sale->paid_amount) }}</td></tr>
         <tr><td>{{ __('app.change') }}</td><td style="text-align:right">{{ mmk($sale->change_amount) }}</td></tr>
+        @if($sale->credit_due > 0)
+        <tr style="color:#b91c1c"><td><b>💳 {{ __('app.credit_due') }}</b></td><td style="text-align:right"><b>{{ mmk($sale->credit_due) }}</b></td></tr>
+        @endif
     </table>
 
     <div class="r-line"></div>

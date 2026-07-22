@@ -5,6 +5,7 @@ use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DebtController;
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\OpeningStockController;
 use App\Http\Controllers\OrderController;
@@ -51,6 +52,10 @@ Route::middleware('auth')->group(function () {
         Route::resource('orders', OrderController::class)->except(['edit', 'update']);
         Route::post('orders/{order}/deliver', [OrderController::class, 'deliver'])->name('orders.deliver');
         Route::post('orders/{order}/cancel', [OrderController::class, 'cancel'])->name('orders.cancel');
+
+        // ရရန်ရှိ အကြွေး (ဖောက်သည် အကြွေးရောင်း) — cashier ပါ လက်ခံနိုင်
+        Route::get('debts/receivable', [DebtController::class, 'receivable'])->name('debts.receivable');
+        Route::post('debts/receivable/{sale}/pay', [DebtController::class, 'payReceivable'])->name('debts.receivable.pay');
     });
 
     // ---- Purchases + Products + Reports : manager နှင့် အထက် ----
@@ -70,6 +75,10 @@ Route::middleware('auth')->group(function () {
         Route::get('losses/create', [StockLossController::class, 'create'])->name('losses.create');
         Route::post('losses', [StockLossController::class, 'store'])->name('losses.store');
         Route::delete('losses/{loss}', [StockLossController::class, 'destroy'])->name('losses.destroy');
+
+        // ပေးရန်ရှိ အကြွေး (အ၀ယ် မကျေငွေ) — manager နှင့် အထက်
+        Route::get('debts/payable', [DebtController::class, 'payable'])->name('debts.payable');
+        Route::post('debts/payable/{purchase}/pay', [DebtController::class, 'payPayable'])->name('debts.payable.pay');
 
         Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
         Route::get('reports/sales', [ReportController::class, 'sales'])->name('reports.sales');

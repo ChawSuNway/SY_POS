@@ -95,6 +95,12 @@
                         <input type="number" name="paid_amount" id="paid" value="0" min="0" step="1" style="width:120px;text-align:right">
                     </div>
                     <div class="cart-total-row"><span>{{ __('app.change') }}</span><b id="changeTxt" style="color:var(--green)">0</b></div>
+                    <div class="cart-total-row" id="creditRow" style="display:none">
+                        <span>💳 {{ __('app.credit') }}</span><b id="creditTxt" style="color:var(--red)">0</b>
+                    </div>
+                    <div class="small" id="creditHint" style="display:none;color:var(--red);margin-top:4px">
+                        ⚠️ {{ __('app.credit_requires_customer') }}
+                    </div>
 
                     <button type="submit" class="btn primary block lg" id="checkoutBtn" style="margin-top:14px" disabled>
                         💾 {{ __('app.checkout') }}
@@ -175,13 +181,20 @@ function render(){
     const paid = +document.getElementById('paid').value || 0;
     document.getElementById('changeTxt').textContent = money(Math.max(0, paid - total));
 
+    // အကြွေး — ငွေမပြည့်ချေလျှင် ပြ၊ ပုံမှန်ဖောက်သည် မရွေးရသေးလျှင် သတိပေး
+    const credit = Math.max(0, total - paid);
+    const hasCustomer = !!document.getElementById('customerSel').value;
+    document.getElementById('creditRow').style.display = credit > 0 && cart.length ? 'flex' : 'none';
+    document.getElementById('creditTxt').textContent = money(credit);
+    document.getElementById('creditHint').style.display = credit > 0 && cart.length && !hasCustomer ? 'block' : 'none';
+
     const anyOver = cart.some(line=>{
         const p = byId(line.pid);
         const usedBase = cart.filter(l=>l.pid==line.pid).reduce((s,l)=>{
             const u=p.units.find(x=>x.id==l.unitId)||p.units[0]; return s+l.qty*u.factor;},0);
         return usedBase > p.stock + 0.0001;
     });
-    document.getElementById('checkoutBtn').disabled = cart.length===0 || anyOver;
+    document.getElementById('checkoutBtn').disabled = cart.length===0 || anyOver || (credit > 0 && !hasCustomer);
 }
 
 function addProduct(pid){
@@ -233,7 +246,7 @@ function syncCustomer(){
         custLabel.textContent = WALK_IN;
     }
 }
-custSel.addEventListener('change', syncCustomer);
+custSel.addEventListener('change', ()=>{ syncCustomer(); render(); });
 custNameInput.addEventListener('input', syncCustomer);
 // validation error ပြန်လာလျှင် value ရှိရင် panel ဖွင့်ပြ
 if(custSel.value || custNameInput.value.trim()){ custPanel.style.display = 'block'; }

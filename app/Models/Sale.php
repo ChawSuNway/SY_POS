@@ -12,7 +12,7 @@ class Sale extends Model
     protected $fillable = [
         'invoice_no', 'sold_at', 'user_id', 'customer_id', 'customer_name',
         'subtotal', 'discount', 'total', 'paid_amount', 'change_amount',
-        'total_cost', 'profit', 'note',
+        'credit_due', 'total_cost', 'profit', 'note',
     ];
 
     protected $casts = [
@@ -22,6 +22,7 @@ class Sale extends Model
         'total'         => 'decimal:2',
         'paid_amount'   => 'decimal:2',
         'change_amount' => 'decimal:2',
+        'credit_due'    => 'decimal:2',
         'total_cost'    => 'decimal:2',
         'profit'        => 'decimal:2',
     ];
@@ -39,5 +40,10 @@ class Sale extends Model
     public function customer()
     {
         return $this->belongsTo(Customer::class);
+    }
+
+    public function debtPayments()
+    {
+        return $this->hasMany(DebtPayment::class)->orderByDesc('paid_at');
     }
 }

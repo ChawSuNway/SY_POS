@@ -30,6 +30,11 @@
                     <input type="text" name="supplier_name" id="supplierName" value="{{ old('supplier_name') }}"
                            placeholder="{{ __('app.supplier') }} — {{ __('app.or_new_name') }}" style="margin-top:6px">
                 </div>
+                <div class="field">
+                    <label>💳 {{ __('app.paid_partial_hint') }}</label>
+                    <input type="number" name="paid_amount" value="{{ old('paid_amount') }}" min="0" step="1"
+                           placeholder="{{ __('app.paid') }} — {{ __('app.payable') }}?">
+                </div>
                 <div class="field full">
                     <label>{{ __('app.note') }}</label>
                     <input type="text" name="note" value="{{ old('note') }}">

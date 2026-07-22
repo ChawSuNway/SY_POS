@@ -193,6 +193,25 @@ return [
     'add'                => 'Add',
     'category_has_children' => 'This category has sub-categories and cannot be deleted. (Delete them first.)',
 
+    // Debts
+    'debts'                   => 'Debts',
+    'receivable'              => 'Receivable',
+    'payable'                 => 'Payable',
+    'credit'                  => 'Credit',
+    'credit_due'              => 'Credit due',
+    'total_receivable'        => 'Total receivable',
+    'total_payable'           => 'Total payable',
+    'credit_requires_customer'=> 'Credit sale requires a registered customer.',
+    'receive_payment'         => 'Receive payment',
+    'make_payment'            => 'Make payment',
+    'payment_recorded'        => 'Payment recorded.',
+    'recent_payments'         => 'Recent payments',
+    'by_customer'             => 'By customer',
+    'by_supplier'             => 'By supplier',
+    'pay_amount'              => 'Amount',
+    'paid_partial_hint'       => 'Paid amount (leave blank = fully paid)',
+    'no_debts'                => 'No outstanding debts 🎉',
+
     // Shop settings
     'shop_settings'   => 'Shop settings',
     'shop_info'       => 'Shop information',

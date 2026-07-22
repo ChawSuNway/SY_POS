@@ -48,6 +48,8 @@
                 <span class="ic">🧾</span> {{ __('app.sales') }}</a>
             <a class="nav-link {{ str_starts_with($r,'orders.')?'active':'' }}" href="{{ route('orders.index') }}">
                 <span class="ic">📋</span> {{ __('app.orders') }}</a>
+            <a class="nav-link {{ str_starts_with($r,'debts.')?'active':'' }}" href="{{ route('debts.receivable') }}">
+                <span class="ic">💳</span> {{ __('app.debts') }}</a>
             <a class="nav-link {{ str_starts_with($r,'customers.')?'active':'' }}" href="{{ route('customers.index') }}">
                 <span class="ic">🧑</span> {{ __('app.customers') }}</a>
 
