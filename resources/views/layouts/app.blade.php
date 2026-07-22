@@ -61,6 +61,8 @@
                 <span class="ic">📦</span> {{ __('app.products') }}</a>
             <a class="nav-link {{ str_starts_with($r,'opening-stock')?'active':'' }}" href="{{ route('opening-stock.index') }}">
                 <span class="ic">🏁</span> {{ __('app.opening_stock') }}</a>
+            <a class="nav-link {{ str_starts_with($r,'losses.')?'active':'' }}" href="{{ route('losses.index') }}">
+                <span class="ic">⚠️</span> {{ __('app.losses') }}</a>
             <a class="nav-link {{ str_starts_with($r,'reports.')?'active':'' }}" href="{{ route('reports.index') }}">
                 <span class="ic">📈</span> {{ __('app.reports') }}</a>
             @endif

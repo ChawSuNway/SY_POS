@@ -14,6 +14,7 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\ShopController;
+use App\Http\Controllers\StockLossController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -63,6 +64,12 @@ Route::middleware('auth')->group(function () {
         // ဖွင့်လှစ်လက်ကျန် (Opening stock) — သီးသန့် screen
         Route::get('opening-stock', [OpeningStockController::class, 'index'])->name('opening-stock.index');
         Route::post('opening-stock', [OpeningStockController::class, 'store'])->name('opening-stock.store');
+
+        // ပျက်စီး/ဆုံးရှုံး စာရင်း
+        Route::get('losses', [StockLossController::class, 'index'])->name('losses.index');
+        Route::get('losses/create', [StockLossController::class, 'create'])->name('losses.create');
+        Route::post('losses', [StockLossController::class, 'store'])->name('losses.store');
+        Route::delete('losses/{loss}', [StockLossController::class, 'destroy'])->name('losses.destroy');
 
         Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
         Route::get('reports/sales', [ReportController::class, 'sales'])->name('reports.sales');

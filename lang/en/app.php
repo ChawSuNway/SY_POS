@@ -174,6 +174,18 @@ return [
     'active_shops'       => 'Active shops',
     'manage'             => 'Manage',
 
+    // Losses / damage
+    'losses'            => 'Damage & losses',
+    'record_loss'       => 'Record damage/loss',
+    'lost_at'           => 'Date of loss',
+    'loss_reason'       => 'Reason',
+    'loss_reason_hint'  => 'e.g. rodent damage, water damage, torn bag, expired',
+    'loss_value'        => 'Loss value',
+    'total_loss'        => 'Total losses',
+    'this_month'        => 'This month',
+    'loss_insufficient' => 'Insufficient stock (on hand :stock).',
+    'recorded_by'       => 'Recorded by',
+
     // Categories / sub-categories
     'parent_category'    => 'Parent category',
     'sub_category'       => 'Sub-category',

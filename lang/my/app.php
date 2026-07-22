@@ -174,6 +174,18 @@ return [
     'active_shops'       => 'ဖွင့်ထားသော ဆိုင်',
     'manage'             => 'စီမံရန်',
 
+    // Losses / damage
+    'losses'            => 'ပျက်စီးဆုံးရှုံးစာရင်း',
+    'record_loss'       => 'ပျက်စီး/ဆုံးရှုံး မှတ်တမ်းတင်ရန်',
+    'lost_at'           => 'ပျက်စီးသည့်ရက်',
+    'loss_reason'       => 'အကြောင်းရင်း',
+    'loss_reason_hint'  => 'ဥပမာ — ကြွက်ကိုက်၊ ရေစို၊ ပေါက်ပြဲ၊ သက်တမ်းကုန်',
+    'loss_value'        => 'ဆုံးရှုံးတန်ဖိုး',
+    'total_loss'        => 'စုစုပေါင်း ဆုံးရှုံးမှု',
+    'this_month'        => 'ယခုလ',
+    'loss_insufficient' => 'လက်ကျန် မလုံလောက်ပါ (လက်ကျန် :stock)။',
+    'recorded_by'       => 'မှတ်တမ်းတင်သူ',
+
     // Categories / sub-categories
     'parent_category'    => 'ပင်မ အမျိုးအစား',
     'sub_category'       => 'အမျိုးအစားခွဲ',

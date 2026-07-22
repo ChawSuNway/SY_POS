@@ -83,4 +83,35 @@ class Product extends Model
     {
         return (float) $this->stock * (float) $this->avg_cost;
     }
+
+    /**
+     * လက်ကျန်ကို ကြီးသောယူနစ်များဖြင့် ခွဲပြ — ဥပမာ "500 အိတ်" / "260 အိတ် 5 ပြည် 5 ဗူး"။
+     * base unit ထက် ကြီးသော unit မရှိလျှင် null (ရိုးရိုး base ပြရန်)။
+     */
+    public function stockBreakdown(): ?string
+    {
+        $units = $this->relationLoaded('units') ? $this->units : $this->units()->get();
+        $units = $units->sortByDesc('factor')->values();
+
+        // base ထက် ကြီးသော unit မရှိလျှင် breakdown မလို
+        if ($units->isEmpty() || (float) $units->first()->factor <= 1) {
+            return null;
+        }
+
+        $remaining = (float) $this->stock;
+        $parts = [];
+        foreach ($units as $u) {
+            $f = (float) $u->factor;
+            if ($f <= 0) {
+                continue;
+            }
+            $count = floor(($remaining + 1e-6) / $f);
+            if ($count >= 1) {
+                $parts[] = qty_fmt($count).' '.$u->label;
+                $remaining -= $count * $f;
+            }
+        }
+
+        return $parts ? implode(' ', $parts) : '0 '.$this->base_unit;
+    }
 }

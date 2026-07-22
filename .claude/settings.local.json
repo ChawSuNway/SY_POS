@@ -27,11 +27,27 @@
       "Read(//c/Users/BCMSSTLP10/Downloads/**)",
       "Read(//c/Users/BCMSSTLP10/**)",
       "Bash(cd /d/AI_Project/shweyee *)",
-      "Bash(ls -t ~/Downloads/*.png 2>/dev/null | head -6)"
+      "Bash(ls -t ~/Downloads/*.png 2>/dev/null | head -6)",
+      "Bash(netstat -ano)",
+      "Bash(tasklist //FI \"IMAGENAME eq php.exe\")",
+      "PowerShell(Get-CimInstance Win32_Process -Filter \"Name='php.exe'\" | Select-Object ProcessId, @{n='CmdLine';e={$_.CommandLine}} | Format-List)",
+      "Read(//c/xampp/apache/bin/**)",
+      "Bash(/c/xampp/php/php.exe \"C:/Users/BCMSST~1/AppData/Local/Temp/claude/d--AI-Project-shweyee/bfd701e3-405e-453e-9807-5279a3d7480d/scratchpad/fix_units.php\")",
+      "Read(//c/xampp/mysql/data/**)",
+      "Bash(/c/xampp/mysql/bin/mysqladmin.exe -u root ping)",
+      "Bash(/c/xampp/mysql/bin/mysql.exe -u root -e \"SHOW DATABASES;\")",
+      "Bash(tasklist //FI \"IMAGENAME eq mysqld.exe\")",
+      "Bash(/c/xampp/mysql/bin/mysql.exe -u root --connect-timeout=5 -e \"SELECT 1 AS ok; SHOW DATABASES LIKE 'shweyee_pos';\")",
+      "Bash(timeout 20 ./mysqld.exe --defaults-file=/c/xampp/mysql/bin/my.ini --console)",
+      "Read(//c/xampp/mysql/data/mysql/**)",
+      "Read(//c/xampp/mysql/backup/mysql/**)",
+      "Bash(timeout 15 ./mysqld.exe --defaults-file=/c/xampp/mysql/bin/my.ini --console)",
+      "Bash(git commit -q -m 'Add damage & loss \\(ပျက်စီးဆုံးရှုံး\\) tracking *)"
     ],
     "additionalDirectories": [
       "\\tmp",
-      "C:\\Users\\BCMSSTLP10\\Downloads"
+      "C:\\Users\\BCMSSTLP10\\Downloads",
+      "C:\\xampp\\mysql\\data\\mysql"
     ]
   }
 }

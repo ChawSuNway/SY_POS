@@ -103,6 +103,61 @@ class InventoryService
         });
     }
 
+    /**
+     * ပျက်စီး/ဆုံးရှုံး — လက်ကျန်လျှော့ပြီး 'loss' movement မှတ်သည်။
+     *
+     * @return float ဆုံးရှုံးချိန် base-unit တစ်ခုလျှင် cost (ဆုံးရှုံးတန်ဖိုး တွက်ရန်)
+     */
+    public function recordLoss(
+        Product $product,
+        float $qtyBase,
+        ?int $userId = null,
+        $reference = null,
+        ?string $note = null
+    ): float {
+        return DB::transaction(function () use ($product, $qtyBase, $userId, $reference, $note) {
+            $product = Product::lockForUpdate()->find($product->id);
+
+            $costBase = (float) $product->avg_cost;
+            $newStock = (float) $product->stock - $qtyBase;
+
+            $product->stock = $newStock;
+            $product->save();
+
+            $this->recordMovement($product, 'loss', -$qtyBase, $newStock, $userId, $reference, $note);
+
+            return $costBase;
+        });
+    }
+
+    /**
+     * လက်ကျန် ပြန်ထည့်ခြင်း (ဥပမာ ပျက်စီးစာရင်း ပယ်ဖျက်ချိန်) —
+     * weighted-average ဖြင့် ပြန်ပေါင်းပြီး 'adjustment' movement မှတ်သည်။
+     */
+    public function restoreStock(
+        Product $product,
+        float $qtyBase,
+        float $unitCostBase,
+        ?int $userId = null,
+        ?string $note = null
+    ): StockMovement {
+        return DB::transaction(function () use ($product, $qtyBase, $unitCostBase, $userId, $note) {
+            $product = Product::lockForUpdate()->find($product->id);
+
+            $oldStock = (float) $product->stock;
+            $oldAvg   = (float) $product->avg_cost;
+            $newStock = $oldStock + $qtyBase;
+
+            $product->stock    = $newStock;
+            $product->avg_cost = $newStock > 0
+                ? (($oldStock * $oldAvg) + ($qtyBase * $unitCostBase)) / $newStock
+                : $unitCostBase;
+            $product->save();
+
+            return $this->recordMovement($product, 'adjustment', $qtyBase, $newStock, $userId, null, $note);
+        });
+    }
+
     /** လက်ရှိ လက်ကျန်ကို တိုက်ရိုက် ချိန်ညှိခြင်း (stock-take)။ */
     public function adjustStock(
         Product $product,
