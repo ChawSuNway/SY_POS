@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', shop_name()) — {{ shop_name() }}</title>
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}?v=4">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}?v=5">
 </head>
 <body>
 @php $u = auth()->user(); @endphp
@@ -89,11 +89,12 @@
             <span style="opacity:.7">v1.0 · {{ now()->format('Y') }}</span>
         </div>
     </aside>
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
 
     <div class="main">
         <header class="topbar">
             <div style="display:flex;align-items:center;gap:12px">
-                <button class="btn ghost sm no-print" onclick="document.getElementById('sidebar').classList.toggle('open')" style="display:none" id="menuBtn">☰</button>
+                <button class="btn ghost sm no-print" onclick="toggleSidebar()" style="display:none" id="menuBtn">☰</button>
                 <div class="page-title">@yield('title', __('app.dashboard'))</div>
             </div>
             <div class="right">
@@ -137,7 +138,21 @@
 </div>
 <script>
     window.CSRF = document.querySelector('meta[name=csrf-token]').content;
-    if(window.innerWidth<=760){document.getElementById('menuBtn').style.display='inline-flex';}
+
+    // ---- responsive sidebar (tablet: off-canvas + overlay) ----
+    const _sb = document.getElementById('sidebar');
+    const _ov = document.getElementById('sidebarOverlay');
+    function toggleSidebar(){ _sb.classList.toggle('open'); _ov.classList.toggle('show', _sb.classList.contains('open')); }
+    function closeSidebar(){ _sb.classList.remove('open'); _ov.classList.remove('show'); }
+    function syncMenuBtn(){
+        const small = window.innerWidth <= 1024;
+        document.getElementById('menuBtn').style.display = small ? 'inline-flex' : 'none';
+        if(!small) closeSidebar();
+    }
+    syncMenuBtn();
+    window.addEventListener('resize', syncMenuBtn);
+    // nav link နှိပ်လျှင် sidebar ပိတ် (tablet)
+    _sb.querySelectorAll('a.nav-link').forEach(a=>a.addEventListener('click', ()=>{ if(window.innerWidth<=1024) closeSidebar(); }));
 </script>
 @stack('scripts')
 </body>

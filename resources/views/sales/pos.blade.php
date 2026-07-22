@@ -111,6 +111,17 @@
     </div>
 </div>
 
+{{-- Portrait tablet — အောက်ခြေ cart အနှစ်ချုပ် bar --}}
+<div class="pos-bottombar no-print" id="posBottomBar">
+    <div style="display:flex;align-items:center;gap:10px">
+        <span class="pb-count" id="pbCount">0</span>
+        <span class="pb-total"><span id="pbTotal">0</span> Ks</span>
+    </div>
+    <button type="button" class="btn primary" onclick="document.querySelector('.cart').scrollIntoView({behavior:'smooth'})">
+        🛒 {{ __('app.checkout') }} ↓
+    </button>
+</div>
+
 @push('scripts')
 <script>
 const PRODUCTS = @json($productData);
@@ -178,6 +189,9 @@ function render(){
     const total = Math.max(0, subtotal - discount);
     document.getElementById('subtotalTxt').textContent = money(subtotal);
     document.getElementById('totalTxt').textContent = money(total);
+    // အောက်ခြေ bar (portrait tablet)
+    document.getElementById('pbCount').textContent = cart.length;
+    document.getElementById('pbTotal').textContent = money(total);
     const paid = +document.getElementById('paid').value || 0;
     document.getElementById('changeTxt').textContent = money(Math.max(0, paid - total));
 
