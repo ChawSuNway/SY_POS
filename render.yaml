@@ -1,10 +1,10 @@
-# Render Blueprint Shwe Yee POS (free tier)
+# Render Blueprint �? Shwe Yee POS (free tier)
 services:
   - type: web
     name: shweyee-pos
     runtime: docker
     plan: free
-    healthCheckPath: /up
+    healthCheckPath: /
     envVars:
       - key: APP_NAME
         value: "Shwe Yee POS"
@@ -13,7 +13,7 @@ services:
       - key: APP_DEBUG
         value: "false"
       - key: APP_KEY
-        value: base64:bwHJvOULcHzK49Ms/MoaJV8seqzDL2i/QKxaEvU2+F4=
+        sync: false            # Render dashboard တွ�?် ကိုယ်တို�?်ထည့်ရန်
       - key: APP_LOCALE
         value: my
       - key: LOG_CHANNEL
@@ -21,17 +21,17 @@ services:
       - key: DB_CONNECTION
         value: mysql
       - key: DB_HOST
-        sync: gateway01.ap-southeast-1.prod.aws.tidbcloud.com
+        sync: false            # TiDB Cloud host
       - key: DB_PORT
         value: "4000"
       - key: DB_DATABASE
-        sync: shweyee_pos
+        sync: false
       - key: DB_USERNAME
-        sync: M2bsnxJvesdZa2p.root
+        sync: false
       - key: DB_PASSWORD
-        sync: jMglz0rOKAhlm7sN
+        sync: false
       - key: MYSQL_ATTR_SSL_CA
-        value: /etc/ssl/certs/ca-certificates.crt
+        value: /etc/ssl/certs/ca-certificates.crt   # TiDB TLS
       - key: SESSION_DRIVER
         value: database
       - key: SESSION_SECURE_COOKIE
@@ -41,4 +41,4 @@ services:
       - key: QUEUE_CONNECTION
         value: database
       - key: SEED_ON_DEPLOY
-        value: "true"
+        value: "true"          # ပထ�? deploy ပြီးလျှ�?် false ပြန်ပြော�?်းပါ
