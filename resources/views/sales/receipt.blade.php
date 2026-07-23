@@ -2,9 +2,9 @@
 <html lang="{{ app()->getLocale() }}">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>{{ __('app.receipt') }} — {{ $sale->invoice_no }}</title>
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}?v=5">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}?v=6">
 </head>
 <body style="background:#e2e8f0;padding:20px">
 

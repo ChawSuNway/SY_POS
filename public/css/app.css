@@ -14,6 +14,7 @@
 }
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
+html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%}
 body{
   font-family:"Myanmar Text","Padauk","Noto Sans Myanmar","Pyidaungsu","Segoe UI",system-ui,sans-serif;
   background:var(--bg); color:var(--text); font-size:14.5px; line-height:1.55;
@@ -226,17 +227,36 @@ hr.sep{border:none;border-top:1px solid var(--border);margin:16px 0}
   .pos-layout{padding-bottom:64px}
 }
 @media(max-width:760px){
-  .grid.cols-2,.grid.cols-3,.grid.cols-4,.form-grid{grid-template-columns:1fr}
-  .topbar{padding:10px 14px}
+  /* phone: stat tiles pair up, everything else single column */
+  .grid.cols-2,.grid.cols-3,.form-grid{grid-template-columns:1fr}
+  .grid.cols-4{grid-template-columns:repeat(2,1fr);gap:10px}
+  .topbar{padding:10px 12px}
+  .topbar .right{gap:8px}
   .userchip .meta{display:none}
-  .page-title{font-size:1rem}
+  .page-title{font-size:.98rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
   .stat .value{font-size:1.25rem}
+  .content{padding:12px}
+  .card .card-head{flex-wrap:wrap;row-gap:8px;padding:12px 14px}
+  .card .card-body{padding:14px}
+  .inline-form{flex-wrap:wrap}
+  .btn-row .btn.lg{flex:1;justify-content:center}
+  .cart-line{flex-wrap:wrap;row-gap:6px}
+  .pagination{justify-content:center}
+}
+@media(max-width:480px){
+  /* small phones */
+  .pos-products{grid-template-columns:repeat(auto-fill,minmax(124px,1fr));gap:8px}
+  .grid.cols-4 .stat .value{font-size:1.1rem}
+  .pill-tabs{flex-wrap:wrap}
+  .pill-tabs a{padding:7px 11px;font-size:.8rem}
+  .locale a{padding:3px 7px;font-size:.72rem}
+  .receipt{max-width:100%}
 }
 
 /* POS bottom summary bar (portrait tablet) */
 .pos-bottombar{display:none;position:fixed;left:0;right:0;bottom:0;z-index:30;
   background:var(--surface);border-top:2px solid var(--primary);box-shadow:0 -4px 16px rgba(15,23,42,.12);
-  padding:10px 16px;align-items:center;justify-content:space-between;gap:12px}
+  padding:10px 16px calc(10px + env(safe-area-inset-bottom));align-items:center;justify-content:space-between;gap:12px}
 .pos-bottombar .pb-total{font-size:1.05rem;font-weight:800}
 .pos-bottombar .pb-count{background:var(--primary);color:#fff;border-radius:999px;padding:2px 10px;font-size:.8rem;font-weight:700}
 
