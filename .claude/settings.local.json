@@ -42,7 +42,10 @@
       "Read(//c/xampp/mysql/data/mysql/**)",
       "Read(//c/xampp/mysql/backup/mysql/**)",
       "Bash(timeout 15 ./mysqld.exe --defaults-file=/c/xampp/mysql/bin/my.ini --console)",
-      "Bash(git commit -q -m 'Add damage & loss \\(ပျက်စီးဆုံးရှုံး\\) tracking *)"
+      "Bash(git commit -q -m 'Add damage & loss \\(ပျက်စီးဆုံးရှုံး\\) tracking *)",
+      "PowerShell(php artisan key:generate --show)",
+      "PowerShell(git add Dockerfile docker/entrypoint.sh .dockerignore render.yaml bootstrap/app.php)",
+      "PowerShell(git push origin main)"
     ],
     "additionalDirectories": [
       "\\tmp",
