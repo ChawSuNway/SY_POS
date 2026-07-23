@@ -1,4 +1,4 @@
-# Shwe Yee POS — Render deployment image
+# Shwe Yee POS - Render deployment image
 FROM php:8.3-apache
 
 # System deps + PHP extensions
