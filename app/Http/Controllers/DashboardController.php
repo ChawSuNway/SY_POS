@@ -28,7 +28,7 @@ class DashboardController extends Controller
 
         $pendingOrders = Order::where('status', 'pending')->count();
 
-        $lowStock = Product::with(['category', 'brand'])
+        $lowStock = Product::with(['category', 'brand', 'units'])
             ->where('is_active', true)
             ->whereColumn('stock', '<=', 'low_stock_threshold')
             ->where('low_stock_threshold', '>', 0)

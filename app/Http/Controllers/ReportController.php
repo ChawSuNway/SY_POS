@@ -124,7 +124,7 @@ class ReportController extends Controller
 
     public function lowStock()
     {
-        $products = Product::with(['category', 'brand'])
+        $products = Product::with(['category', 'brand', 'units'])
             ->where('is_active', true)
             ->where('low_stock_threshold', '>', 0)
             ->whereColumn('stock', '<=', 'low_stock_threshold')

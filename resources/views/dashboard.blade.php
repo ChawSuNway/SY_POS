@@ -61,7 +61,7 @@
                             <span class="badge {{ $p->type }}">{{ $p->type=='rice'?__('app.rice'):__('app.oil') }}</span>
                             {{ $p->displayName() }}
                         </div>
-                        <span class="badge red">{{ qty_fmt($p->stock) }} {{ $p->base_unit }}</span>
+                        <span class="badge red">{{ $p->stockBreakdown() ?? qty_fmt($p->stock).' '.$p->base_unit }}</span>
                     </div>
                 @empty
                     <div class="empty"><div class="big">✅</div>{{ app()->getLocale()=='my'?'လက်ကျန်နည်း ပစ္စည်း မရှိပါ':'No low-stock items' }}</div>

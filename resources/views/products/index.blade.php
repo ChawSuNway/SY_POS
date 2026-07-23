@@ -41,7 +41,8 @@
                             @endforeach
                         </td>
                         <td class="num strong {{ $p->isLowStock()?'':'' }}" style="{{ $p->isLowStock()?'color:var(--red)':'' }}">
-                            {{ qty_fmt($p->stock) }} {{ $p->base_unit }}
+                            {{ $p->stockBreakdown() ?? qty_fmt($p->stock).' '.$p->base_unit }}
+                            @if($p->stockBreakdown())<div class="small muted">({{ qty_fmt($p->stock) }} {{ $p->base_unit }})</div>@endif
                             @if($p->isLowStock())<div class="badge red" style="margin-top:3px">⚠️</div>@endif
                         </td>
                         <td class="num muted">{{ mmk($p->avg_cost) }}</td>

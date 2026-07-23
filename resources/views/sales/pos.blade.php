@@ -9,6 +9,7 @@
         'type'      => $p->type,
         'base_unit' => $p->base_unit,
         'stock'     => (float) $p->stock,
+        'stock_text' => $p->stockBreakdown() ?? qty_fmt($p->stock).' '.$p->base_unit,
         'units'     => $p->units->map(fn($u) => [
             'id' => $u->id, 'label' => $u->label,
             'factor' => (float) $u->factor, 'price' => (float) $u->selling_price,
@@ -42,7 +43,7 @@
                     </div>
                     <div class="pc-stock">
                         @if($p->stock > 0)
-                            <span class="muted">{{ __('app.stock') }}: {{ qty_fmt($p->stock) }} {{ $p->base_unit }}</span>
+                            <span class="muted">{{ __('app.stock') }}: {{ $p->stockBreakdown() ?? qty_fmt($p->stock).' '.$p->base_unit }}</span>
                         @else
                             <span class="badge red">{{ __('app.inactive') }} · 0</span>
                         @endif
@@ -168,7 +169,7 @@ function render(){
                         ${p.units.map(u=>`<option value="${u.id}" ${u.id==unit.id?'selected':''}>${u.label} · ${money(u.price)} Ks</option>`).join('')}
                     </select>
                 </div>
-                ${over?`<div class="err">${T.overStock} (${T.stock}: ${(+p.stock).toLocaleString()} ${p.base_unit})</div>`:''}
+                ${over?`<div class="err">${T.overStock} (${T.stock}: ${p.stock_text})</div>`:''}
                 <input type="hidden" name="items[${i}][product_id]" value="${p.id}">
                 <input type="hidden" name="items[${i}][product_unit_id]" value="${unit.id}">
             </div>
@@ -201,6 +202,12 @@ function render(){
     document.getElementById('creditRow').style.display = credit > 0 && cart.length ? 'flex' : 'none';
     document.getElementById('creditTxt').textContent = money(credit);
     document.getElementById('creditHint').style.display = credit > 0 && cart.length && !hasCustomer ? 'block' : 'none';
+
+    // အကြွေးရှိလျှင် ပုံမှန်ဖောက်သည်သာ — walk-in အမည် free-text လက်မခံ (ဖျောက်ထား)
+    const creditOn = credit > 0 && cart.length > 0;
+    if (creditOn && custNameInput.value.trim()) { custNameInput.value = ''; syncCustomer(); }
+    custNameInput.style.display = creditOn ? 'none' : '';
+    if (creditOn && !hasCustomer) custPanel.style.display = 'block';
 
     const anyOver = cart.some(line=>{
         const p = byId(line.pid);

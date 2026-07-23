@@ -21,7 +21,7 @@
                         <tr>
                             <td><span class="badge {{ $p->type }}">{{ $p->type=='rice'?__('app.rice'):__('app.oil') }}</span></td>
                             <td class="strong">{{ $p->displayName() }}</td>
-                            <td class="num"><span class="badge red">{{ qty_fmt($p->stock) }} {{ $p->base_unit }}</span></td>
+                            <td class="num"><span class="badge red">{{ $p->stockBreakdown() ?? qty_fmt($p->stock).' '.$p->base_unit }}</span></td>
                             <td class="num">{{ qty_fmt($p->low_stock_threshold) }} {{ $p->base_unit }}</td>
                         </tr>
                     @endforeach

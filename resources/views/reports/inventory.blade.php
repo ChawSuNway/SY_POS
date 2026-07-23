@@ -36,7 +36,10 @@
                         <tr>
                             <td><span class="badge {{ $p->type }}">{{ $p->type=='rice'?__('app.rice'):__('app.oil') }}</span></td>
                             <td class="strong">{{ $p->displayName() }}</td>
-                            <td class="num">{{ qty_fmt($p->stock) }} {{ $p->base_unit }}</td>
+                            <td class="num">
+                                {{ $p->stockBreakdown() ?? qty_fmt($p->stock).' '.$p->base_unit }}
+                                @if($p->stockBreakdown())<div class="small muted">({{ qty_fmt($p->stock) }} {{ $p->base_unit }})</div>@endif
+                            </td>
                             <td class="num">{{ mmk($p->avg_cost) }}</td>
                             <td class="num strong">{{ mmk($p->stockValue()) }}</td>
                             <td>@if($p->isLowStock())<span class="badge red">{{ __('app.low_stock') }}</span>@endif</td>

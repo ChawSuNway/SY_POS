@@ -46,7 +46,7 @@
                                 <span class="strong">{{ $p->displayName() }}</span>
                                 <div class="small muted">{{ __('app.base_unit') }}: {{ $p->base_unit }}</div>
                             </td>
-                            <td class="num muted">{{ qty_fmt($p->stock) }} {{ $p->base_unit }}</td>
+                            <td class="num muted">{{ $p->stockBreakdown() ?? qty_fmt($p->stock).' '.$p->base_unit }}</td>
                             <td>
                                 <select name="rows[{{ $p->id }}][unit_id]" class="os-unit" data-row="{{ $p->id }}">
                                     <option value="" data-factor="1">{{ $p->base_unit }} ({{ __('app.base_unit') }})</option>

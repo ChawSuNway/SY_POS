@@ -112,6 +112,11 @@ class Product extends Model
             }
         }
 
+        // unit list ထဲမပါသော ကျန်ရှိ base unit အပိုင်းအစ
+        if ($remaining > 1e-6) {
+            $parts[] = qty_fmt($remaining).' '.$this->base_unit;
+        }
+
         return $parts ? implode(' ', $parts) : '0 '.$this->base_unit;
     }
 }
