@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
@@ -38,8 +39,9 @@ Route::middleware('auth')->group(function () {
 
     // ---- POS / Sales : cashier နှင့် အထက် ----
     Route::middleware(['role:cashier', 'shop'])->group(function () {
-        Route::get('pos', [SaleController::class, 'create'])->name('sales.create');
-        Route::post('pos', [SaleController::class, 'store'])->name('sales.store');
+        // POS ရောင်းချခြင်း — Super Admin မပါ (deny_super)
+        Route::get('pos', [SaleController::class, 'create'])->middleware('deny_super')->name('sales.create');
+        Route::post('pos', [SaleController::class, 'store'])->middleware('deny_super')->name('sales.store');
         Route::get('sales', [SaleController::class, 'index'])->name('sales.index');
         Route::get('sales/{sale}', [SaleController::class, 'show'])->name('sales.show');
         Route::get('sales/{sale}/receipt', [SaleController::class, 'receipt'])->name('sales.receipt');
@@ -105,8 +107,14 @@ Route::middleware('auth')->group(function () {
         Route::put('settings', [SettingController::class, 'update'])->name('settings.update');
     });
 
-    // ---- Super Admin only : ဆိုင်များ စီမံ ----
+    // ---- Super Admin only : ဆိုင်များ စီမံ + မှတ်တမ်း ----
     Route::middleware('role:super_admin')->group(function () {
         Route::resource('shops', ShopController::class)->except(['show']);
+        // ဆိုင်ဝင်စီမံ / ထွက်
+        Route::post('shops/{shop}/enter', [ShopController::class, 'enter'])->name('shops.enter');
+        Route::post('shops/leave', [ShopController::class, 'leave'])->name('shops.leave');
+
+        // လုပ်ဆောင်ချက် မှတ်တမ်း
+        Route::get('activity-logs', [ActivityLogController::class, 'index'])->name('activity-logs.index');
     });
 });

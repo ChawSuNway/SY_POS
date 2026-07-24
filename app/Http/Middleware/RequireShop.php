@@ -14,7 +14,8 @@ class RequireShop
 {
     public function handle(Request $request, Closure $next): Response
     {
-        if (! $request->user()?->shop_id) {
+        // ဆိုင် context မရှိသေးလျှင် — Super Admin ဆိုင်ရွေးရန်၊ ဝန်ထမ်းအတွက် shop_id ရှိပြီးသား
+        if (! current_shop_id()) {
             return redirect()->route('shops.index');
         }
 

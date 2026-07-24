@@ -37,10 +37,26 @@ if (! function_exists('current_shop')) {
 }
 
 if (! function_exists('current_shop_id')) {
-    /** လက်ရှိ ဆိုင် id (super_admin => null) */
+    /**
+     * လက်ရှိ ဆိုင် id။
+     * - ဝန်ထမ်း (admin/manager/cashier) => မိမိ၏ shop_id
+     * - Super Admin => session တွင် ရွေးထားသော ဆိုင် (မရွေးရသေးလျှင် null)
+     *   ⇒ ရွေးပြီးလျှင် BelongsToShop scope + RequireShop အားလုံး ထိုဆိုင်အတိုင်း အလုပ်လုပ်၊
+     *     Super Admin သည် ဆိုင်တိုင်းကို စီမံနိုင်သည်။
+     */
     function current_shop_id(): ?int
     {
-        return auth()->user()?->shop_id;
+        $u = auth()->user();
+        if (! $u) {
+            return null;
+        }
+
+        if ($u->role === \App\Models\User::ROLE_SUPER_ADMIN) {
+            $id = session('sa_shop_id');
+            return $id ? (int) $id : null;
+        }
+
+        return $u->shop_id;
     }
 }
 

@@ -16,10 +16,12 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->web(append: [
             \App\Http\Middleware\SetLocale::class,
+            \App\Http\Middleware\LogActivity::class,   // write request မှတ်တမ်း (terminable)
         ]);
         $middleware->alias([
-            'role' => \App\Http\Middleware\EnsureUserHasRole::class,
-            'shop' => \App\Http\Middleware\RequireShop::class,
+            'role'        => \App\Http\Middleware\EnsureUserHasRole::class,
+            'shop'        => \App\Http\Middleware\RequireShop::class,
+            'deny_super'  => \App\Http\Middleware\DenySuperAdmin::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

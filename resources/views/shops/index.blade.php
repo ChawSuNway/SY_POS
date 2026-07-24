@@ -45,7 +45,11 @@
                         </td>
                         <td class="num">
                             <div class="btn-row" style="justify-content:flex-end">
-                                <a class="btn ghost sm" href="{{ route('shops.edit',$shop) }}">{{ __('app.manage') }}</a>
+                                <form method="POST" action="{{ route('shops.enter',$shop) }}">
+                                    @csrf
+                                    <button class="btn primary sm" title="{{ __('app.enter_shop_hint') }}">⚙ {{ __('app.enter_shop') }}</button>
+                                </form>
+                                <a class="btn ghost sm" href="{{ route('shops.edit',$shop) }}">✎ {{ __('app.edit') }}</a>
                                 <form method="POST" action="{{ route('shops.destroy',$shop) }}" onsubmit="return confirm('{{ __('app.confirm_delete') }}')">
                                     @csrf @method('DELETE')
                                     <button class="btn danger sm">✕</button>

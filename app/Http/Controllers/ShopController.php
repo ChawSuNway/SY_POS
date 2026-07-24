@@ -113,6 +113,23 @@ class ShopController extends Controller
         return redirect()->route('shops.index')->with('success', __('app.saved'));
     }
 
+    /** Super Admin — ဤဆိုင်ကို ဝင်စီမံ (session context သတ်မှတ်) */
+    public function enter(Shop $shop)
+    {
+        session(['sa_shop_id' => $shop->id]);
+
+        return redirect()->route('dashboard')
+            ->with('success', __('app.now_managing').' — '.$shop->displayName());
+    }
+
+    /** Super Admin — ဆိုင်စီမံမှ ထွက် (platform သို့ ပြန်) */
+    public function leave()
+    {
+        session()->forget('sa_shop_id');
+
+        return redirect()->route('shops.index');
+    }
+
     public function destroy(Shop $shop)
     {
         // data ရှိသော ဆိုင်ကို ဖျက်၍မရ — ပိတ်ထားရန် အကြံပြု

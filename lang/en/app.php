@@ -173,6 +173,18 @@ return [
     'total_shops'        => 'Total shops',
     'active_shops'       => 'Active shops',
     'manage'             => 'Manage',
+    'enter_shop'         => 'Manage',
+    'enter_shop_hint'    => 'Manage this shop’s operations (products, purchases, stock, reports …)',
+    'exit_shop'          => 'Exit',
+    'now_managing'       => 'Managing',
+
+    // Activity logs (Super Admin)
+    'activity_logs'      => 'Activity Logs',
+    'all_users'          => 'All users',
+    'log_time'           => 'Time',
+    'log_user'           => 'User',
+    'log_action'         => 'Action',
+    'log_subject'        => 'Subject',
 
     // Losses / damage
     'losses'            => 'Damage & losses',

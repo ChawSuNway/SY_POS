@@ -40,16 +40,36 @@
             <a class="nav-link {{ $r=='dashboard'?'active':'' }}" href="{{ route('dashboard') }}">
                 <span class="ic">📊</span> {{ __('app.dashboard') }}</a>
 
-            @if($u->isSuperAdmin())
-            {{-- Super Admin — ဆိုင်များ စီမံသာ --}}
+            @php $sa = $u->isSuperAdmin(); $managing = current_shop(); @endphp
+
+            @if($sa)
+            {{-- Super Admin — platform level --}}
             <div class="nav-group">{{ __('app.administration') }}</div>
             <a class="nav-link {{ str_starts_with($r,'shops.')?'active':'' }}" href="{{ route('shops.index') }}">
                 <span class="ic">🏬</span> {{ __('app.shops') }}</a>
-            @else
+            <a class="nav-link {{ str_starts_with($r,'activity-logs')?'active':'' }}" href="{{ route('activity-logs.index') }}">
+                <span class="ic">🧭</span> {{ __('app.activity_logs') }}</a>
+            @if($managing)
+            <form method="POST" action="{{ route('shops.leave') }}" style="padding:6px 14px">
+                @csrf
+                <div class="small muted" style="margin-bottom:4px">{{ __('app.now_managing') }}:</div>
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:6px">
+                    <b class="small">{{ $managing->displayName() }}</b>
+                    <button type="submit" class="btn ghost sm">↩ {{ __('app.exit_shop') }}</button>
+                </div>
+            </form>
+            @endif
+            @endif
+
+            {{-- ဆိုင်လုပ်ငန်း nav — ဝန်ထမ်း၊ သို့မဟုတ် ဆိုင်ဝင်စီမံနေသော Super Admin --}}
+            @if(! $sa || $managing)
 
             <div class="nav-group">{{ __('app.pos') }}</div>
+            @unless($sa)
+            {{-- Super Admin မရောင်းချနိုင် — POS link ဖျောက် --}}
             <a class="nav-link {{ $r=='sales.create'?'active':'' }}" href="{{ route('sales.create') }}">
                 <span class="ic">🛒</span> {{ __('app.pos') }}</a>
+            @endunless
             <a class="nav-link {{ $r=='sales.index'?'active':'' }}" href="{{ route('sales.index') }}">
                 <span class="ic">🧾</span> {{ __('app.sales') }}</a>
             <a class="nav-link {{ str_starts_with($r,'orders.')?'active':'' }}" href="{{ route('orders.index') }}">
@@ -77,7 +97,7 @@
                 <span class="ic">📈</span> {{ __('app.reports') }}</a>
             @endif
 
-            @if($u->isAdmin())
+            @if($u->isAdmin() || $sa)
             <div class="nav-group">{{ __('app.settings') }}</div>
             <a class="nav-link {{ str_starts_with($r,'categories.')?'active':'' }}" href="{{ route('categories.index') }}">
                 <span class="ic">🏷️</span> {{ __('app.categories') }}</a>

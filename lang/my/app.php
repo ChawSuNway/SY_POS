@@ -173,6 +173,18 @@ return [
     'total_shops'        => 'ဆိုင် စုစုပေါင်း',
     'active_shops'       => 'ဖွင့်ထားသော ဆိုင်',
     'manage'             => 'စီမံရန်',
+    'enter_shop'         => 'ဝင်စီမံရန်',
+    'enter_shop_hint'    => 'ဤဆိုင်၏ လုပ်ငန်းများ (ကုန်ပစ္စည်း၊ အဝယ်၊ လက်ကျန်၊ အစီရင်ခံစာ …) ကို စီမံရန်',
+    'exit_shop'          => 'ထွက်ရန်',
+    'now_managing'       => 'စီမံနေသည်',
+
+    // Activity logs (Super Admin)
+    'activity_logs'      => 'လုပ်ဆောင်ချက် မှတ်တမ်း',
+    'all_users'          => 'အသုံးပြုသူ အားလုံး',
+    'log_time'           => 'အချိန်',
+    'log_user'           => 'အသုံးပြုသူ',
+    'log_action'         => 'လုပ်ဆောင်ချက်',
+    'log_subject'        => 'အကြောင်းအရာ',
 
     // Losses / damage
     'losses'            => 'ပျက်စီးဆုံးရှုံးစာရင်း',
