@@ -11,24 +11,31 @@
                 @csrf
                 <div class="form-grid">
                     <div class="field">
-                        <label>{{ __('app.name') }}</label>
-                        <input type="text" name="name" value="{{ old('name') }}" required>
+                        <label>{{ __('app.name') }} *</label>
+                        <input type="text" name="name" value="{{ old('name') }}" required maxlength="100"
+                               class="@error('name') is-invalid @enderror">
+                        <x-ferr name="name"/>
                     </div>
                     <div class="field">
-                        <label>{{ __('app.email') }}</label>
-                        <input type="email" name="email" value="{{ old('email') }}" required>
+                        <label>{{ __('app.email') }} *</label>
+                        <input type="email" name="email" value="{{ old('email') }}" required
+                               class="@error('email') is-invalid @enderror">
+                        <x-ferr name="email"/>
                     </div>
                     <div class="field">
-                        <label>{{ __('app.role') }}</label>
-                        <select name="role">
+                        <label>{{ __('app.role') }} *</label>
+                        <select name="role" class="@error('role') is-invalid @enderror">
                             <option value="cashier" {{ old('role')=='cashier' ? 'selected' : '' }}>Cashier / ကက်ရှီယာ</option>
                             <option value="manager" {{ old('role')=='manager' ? 'selected' : '' }}>Manager / မန်နေဂျာ</option>
                             <option value="admin" {{ old('role')=='admin' ? 'selected' : '' }}>Admin / အက်ဒမင်</option>
                         </select>
+                        <x-ferr name="role"/>
                     </div>
                     <div class="field">
-                        <label>{{ __('app.password') }}</label>
-                        <input type="password" name="password" required>
+                        <label>{{ __('app.password') }} *</label>
+                        <input type="password" name="password" required minlength="6"
+                               class="@error('password') is-invalid @enderror">
+                        <x-ferr name="password"/>
                     </div>
                     <div class="field full">
                         <label class="check">

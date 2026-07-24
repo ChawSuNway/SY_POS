@@ -23,7 +23,7 @@
                             @forelse(($brands[$type] ?? []) as $brand)
                                 <tr>
                                     <td>
-                                        <input type="text" name="name" value="{{ $brand->name }}" form="brand-edit-{{ $brand->id }}" required>
+                                        <input type="text" name="name" value="{{ $brand->name }}" form="brand-edit-{{ $brand->id }}" required maxlength="100">
                                     </td>
                                     <td>
                                         <label class="check">
@@ -58,7 +58,7 @@
                             @csrf
                             <input type="hidden" name="type" value="{{ $type }}">
                             <div class="field" style="flex:1;margin-bottom:0">
-                                <input type="text" name="name" placeholder="{{ __('app.name') }}" required>
+                                <input type="text" name="name" placeholder="{{ __('app.name') }}" required maxlength="100">
                             </div>
                             <button type="submit" class="btn primary">＋ {{ __('app.create') }}</button>
                         </form>

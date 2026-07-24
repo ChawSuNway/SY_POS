@@ -12,25 +12,32 @@
                 @method('PUT')
                 <div class="form-grid">
                     <div class="field">
-                        <label>{{ __('app.name') }}</label>
-                        <input type="text" name="name" value="{{ old('name', $user->name) }}" required>
+                        <label>{{ __('app.name') }} *</label>
+                        <input type="text" name="name" value="{{ old('name', $user->name) }}" required maxlength="100"
+                               class="@error('name') is-invalid @enderror">
+                        <x-ferr name="name"/>
                     </div>
                     <div class="field">
-                        <label>{{ __('app.email') }}</label>
-                        <input type="email" name="email" value="{{ old('email', $user->email) }}" required>
+                        <label>{{ __('app.email') }} *</label>
+                        <input type="email" name="email" value="{{ old('email', $user->email) }}" required
+                               class="@error('email') is-invalid @enderror">
+                        <x-ferr name="email"/>
                     </div>
                     <div class="field">
-                        <label>{{ __('app.role') }}</label>
-                        <select name="role">
+                        <label>{{ __('app.role') }} *</label>
+                        <select name="role" class="@error('role') is-invalid @enderror">
                             <option value="cashier" {{ old('role', $user->role)=='cashier' ? 'selected' : '' }}>Cashier / ကက်ရှီယာ</option>
                             <option value="manager" {{ old('role', $user->role)=='manager' ? 'selected' : '' }}>Manager / မန်နေဂျာ</option>
                             <option value="admin" {{ old('role', $user->role)=='admin' ? 'selected' : '' }}>Admin / အက်ဒမင်</option>
                         </select>
+                        <x-ferr name="role"/>
                     </div>
                     <div class="field">
                         <label>{{ __('app.password') }}</label>
-                        <input type="password" name="password">
+                        <input type="password" name="password" minlength="6"
+                               class="@error('password') is-invalid @enderror">
                         <div class="hint">{{ app()->getLocale()=='my' ? 'အလွတ်ထားလျှင် စကားဝှက်မပြောင်း' : 'Leave blank to keep current password' }}</div>
+                        <x-ferr name="password"/>
                     </div>
                     <div class="field full">
                         <label class="check">

@@ -16,8 +16,10 @@
         <div class="card-body">
             <div class="form-grid">
                 <div class="field">
-                    <label>{{ __('app.order_date') }}</label>
-                    <input type="date" name="order_date" value="{{ old('order_date', date('Y-m-d')) }}" required>
+                    <label>{{ __('app.order_date') }} *</label>
+                    <input type="date" name="order_date" value="{{ old('order_date', date('Y-m-d')) }}" required
+                           class="@error('order_date') is-invalid @enderror">
+                    <x-ferr name="order_date"/>
                 </div>
                 <div class="field">
                     <label>{{ __('app.customer') }}</label>
@@ -76,6 +78,7 @@
                     </tfoot>
                 </table>
             </div>
+            <x-ferr name="items"/>
         </div>
     </div>
 
@@ -105,7 +108,7 @@ function addRow(){
             </select>
         </td>
         <td><select name="items[${idx}][product_unit_id]" class="unitSel" data-idx="${idx}" required></select></td>
-        <td><input type="number" name="items[${idx}][qty]" class="qty" min="1" step="1" value="1" style="text-align:right"></td>
+        <td><input type="number" name="items[${idx}][qty]" class="qty" min="1" step="1" value="1" required style="text-align:right"></td>
         <td class="num priceCell">0</td>
         <td class="num strong lineAmt">0</td>
         <td class="num"><button type="button" class="btn danger sm rm">✕</button></td>`;

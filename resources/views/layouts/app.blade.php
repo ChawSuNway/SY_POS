@@ -11,7 +11,7 @@
     <link rel="manifest" href="{{ asset('manifest.json') }}">
     <link rel="apple-touch-icon" href="{{ asset('img/rno-logo.png') }}">
     <title>@yield('title', shop_name()) — {{ shop_name() }}</title>
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}?v=6">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}?v=7">
 </head>
 <body>
 @php $u = auth()->user(); @endphp

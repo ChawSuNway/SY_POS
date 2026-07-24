@@ -5,11 +5,15 @@
         <div class="form-grid">
             <div class="field full">
                 <label>{{ __('app.name') }} *</label>
-                <input type="text" name="name" value="{{ old('name', $isEdit ? $supplier->name : '') }}" required autofocus>
+                <input type="text" name="name" value="{{ old('name', $isEdit ? $supplier->name : '') }}"
+                       required maxlength="150" autofocus class="@error('name') is-invalid @enderror">
+                <x-ferr name="name"/>
             </div>
             <div class="field">
                 <label>{{ __('app.phone') }}</label>
-                <input type="text" name="phone" value="{{ old('phone', $isEdit ? $supplier->phone : '') }}">
+                <input type="text" name="phone" value="{{ old('phone', $isEdit ? $supplier->phone : '') }}"
+                       maxlength="30" class="@error('phone') is-invalid @enderror">
+                <x-ferr name="phone"/>
             </div>
             <div class="field">
                 <label>{{ __('app.status') }}</label>
@@ -18,11 +22,14 @@
             </div>
             <div class="field full">
                 <label>{{ __('app.address') }}</label>
-                <input type="text" name="address" value="{{ old('address', $isEdit ? $supplier->address : '') }}">
+                <input type="text" name="address" value="{{ old('address', $isEdit ? $supplier->address : '') }}"
+                       maxlength="255" class="@error('address') is-invalid @enderror">
+                <x-ferr name="address"/>
             </div>
             <div class="field full">
                 <label>{{ __('app.note') }}</label>
-                <textarea name="note" rows="2">{{ old('note', $isEdit ? $supplier->note : '') }}</textarea>
+                <textarea name="note" rows="2" maxlength="500" class="@error('note') is-invalid @enderror">{{ old('note', $isEdit ? $supplier->note : '') }}</textarea>
+                <x-ferr name="note"/>
             </div>
         </div>
         <div class="btn-row">

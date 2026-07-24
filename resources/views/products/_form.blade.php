@@ -22,11 +22,13 @@
                     </select>
                 </div>
                 <div class="field">
-                    <label>{{ __('app.base_unit') }}</label>
+                    <label>{{ __('app.base_unit') }} *</label>
                     <input type="text" name="base_unit" id="baseUnit"
                            value="{{ old('base_unit', $isEdit ? $product->base_unit : '') }}"
+                           required maxlength="30" class="@error('base_unit') is-invalid @enderror"
                            placeholder="{{ app()->getLocale()=='my'?'ဥပမာ — ဗူး / ဆယ်သား':'e.g. ဗူး / ဆယ်သား' }}">
                     <div class="hint">{{ app()->getLocale()=='my'?'အသေးဆုံး ရောင်းချသည့် ယူနစ် (လက်ကျန်တွက်ရန်)':'Smallest sellable unit (for stock)' }}</div>
+                    <x-ferr name="base_unit"/>
                 </div>
                 <div class="field">
                     <label>{{ __('app.category') }}</label>
@@ -34,27 +36,33 @@
                 </div>
                 <div class="field">
                     <label>{{ __('app.sub_category') }}</label>
-                    <select name="category_id" id="categorySel"><!-- JS populated --></select>
+                    <select name="category_id" id="categorySel" class="@error('category_id') is-invalid @enderror"><!-- JS populated --></select>
+                    <x-ferr name="category_id"/>
                 </div>
                 <div class="field">
                     <label>{{ __('app.brand') }}</label>
-                    <select name="brand_id" id="brandSel">
+                    <select name="brand_id" id="brandSel" class="@error('brand_id') is-invalid @enderror">
                         @foreach($brands as $b)
                             <option value="{{ $b->id }}" data-type="{{ $b->type }}"
                                 {{ old('brand_id', $isEdit ? $product->brand_id : '')==$b->id?'selected':'' }}>{{ $b->name }}</option>
                         @endforeach
                     </select>
+                    <x-ferr name="brand_id"/>
                 </div>
                 <div class="field full">
                     <label>{{ __('app.name') }} <span class="muted small">({{ app()->getLocale()=='my'?'မဖြည့်လည်းရ':'optional' }})</span></label>
                     <input type="text" name="name" value="{{ old('name', $isEdit ? $product->name : '') }}"
+                           maxlength="150" class="@error('name') is-invalid @enderror"
                            placeholder="{{ app()->getLocale()=='my'?'ဥပမာ — အထူး/ရိုးရိုး':'e.g. special grade'}}">
+                    <x-ferr name="name"/>
                 </div>
                 <div class="field">
                     <label>{{ __('app.low_stock_threshold') }}</label>
                     <input type="number" name="low_stock_threshold" min="0" step="0.001"
+                           class="@error('low_stock_threshold') is-invalid @enderror"
                            value="{{ old('low_stock_threshold', $isEdit ? qty_fmt($product->low_stock_threshold) : '0') }}">
                     <div class="hint">{{ __('app.base_unit') }} {{ app()->getLocale()=='my'?'ဖြင့်':'unit' }}</div>
+                    <x-ferr name="low_stock_threshold"/>
                 </div>
                 <div class="field" style="display:flex;align-items:flex-end">
                     <label class="check"><input type="checkbox" name="is_active" value="1"

@@ -9,7 +9,7 @@
     <link rel="manifest" href="{{ asset('manifest.json') }}">
     <link rel="apple-touch-icon" href="{{ asset('img/rno-logo.png') }}">
     <title>{{ __('app.login') }} — {{ __('app.app_name') }}</title>
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}?v=6">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}?v=7">
 </head>
 <body>
 <div class="login-wrap">

@@ -39,23 +39,31 @@
             <div class="form-grid" style="grid-template-columns:150px 1fr 160px 1fr auto;align-items:end">
                 <div class="field" style="margin-bottom:0">
                     <label>{{ __('app.expense_date') }}</label>
-                    <input type="date" name="expense_date" value="{{ old('expense_date', date('Y-m-d')) }}" required>
+                    <input type="date" name="expense_date" value="{{ old('expense_date', date('Y-m-d')) }}" required
+                           class="@error('expense_date') is-invalid @enderror">
+                    <x-ferr name="expense_date"/>
                 </div>
                 <div class="field" style="margin-bottom:0">
                     <label>{{ __('app.expense_category') }}</label>
                     <input type="text" name="category" list="catList" value="{{ old('category') }}"
-                           placeholder="၀န်ထမ်းလစာ / အိတ်ဖိုး / သယ်ယူစရိတ် …" required>
+                           required maxlength="100" class="@error('category') is-invalid @enderror"
+                           placeholder="၀န်ထမ်းလစာ / အိတ်ဖိုး / သယ်ယူစရိတ် …">
                     <datalist id="catList">
                         @foreach($categories as $cat)<option value="{{ $cat }}">@endforeach
                     </datalist>
+                    <x-ferr name="category"/>
                 </div>
                 <div class="field" style="margin-bottom:0">
                     <label>{{ __('app.pay_amount') }} (Ks)</label>
-                    <input type="number" name="amount" min="1" step="1" value="{{ old('amount') }}" required style="text-align:right">
+                    <input type="number" name="amount" min="1" step="1" value="{{ old('amount') }}" required
+                           class="@error('amount') is-invalid @enderror" style="text-align:right">
+                    <x-ferr name="amount"/>
                 </div>
                 <div class="field" style="margin-bottom:0">
                     <label>{{ __('app.note') }}</label>
-                    <input type="text" name="note" value="{{ old('note') }}">
+                    <input type="text" name="note" value="{{ old('note') }}" maxlength="200"
+                           class="@error('note') is-invalid @enderror">
+                    <x-ferr name="note"/>
                 </div>
                 <button type="submit" class="btn primary">💾 {{ __('app.save') }}</button>
             </div>

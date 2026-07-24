@@ -13,27 +13,39 @@
             <div class="card-body">
                 <div class="field">
                     <label>{{ __('app.shop_name_my') }} <span style="color:var(--danger)">*</span></label>
-                    <input type="text" name="name" value="{{ old('name', $shop->name) }}" required>
+                    <input type="text" name="name" value="{{ old('name', $shop->name) }}" required maxlength="150"
+                           class="@error('name') is-invalid @enderror">
+                    <x-ferr name="name"/>
                 </div>
                 <div class="field">
                     <label>{{ __('app.shop_name_en') }}</label>
-                    <input type="text" name="name_en" value="{{ old('name_en', $shop->name_en) }}">
+                    <input type="text" name="name_en" value="{{ old('name_en', $shop->name_en) }}" maxlength="150"
+                           class="@error('name_en') is-invalid @enderror">
+                    <x-ferr name="name_en"/>
                 </div>
                 <div class="field">
                     <label>{{ __('app.shop_tagline_my') }}</label>
-                    <input type="text" name="tagline" value="{{ old('tagline', $shop->tagline) }}">
+                    <input type="text" name="tagline" value="{{ old('tagline', $shop->tagline) }}" maxlength="200"
+                           class="@error('tagline') is-invalid @enderror">
+                    <x-ferr name="tagline"/>
                 </div>
                 <div class="field">
                     <label>{{ __('app.shop_tagline_en') }}</label>
-                    <input type="text" name="tagline_en" value="{{ old('tagline_en', $shop->tagline_en) }}">
+                    <input type="text" name="tagline_en" value="{{ old('tagline_en', $shop->tagline_en) }}" maxlength="200"
+                           class="@error('tagline_en') is-invalid @enderror">
+                    <x-ferr name="tagline_en"/>
                 </div>
                 <div class="field">
                     <label>{{ __('app.shop_phone') }}</label>
-                    <input type="text" name="phone" value="{{ old('phone', $shop->phone) }}">
+                    <input type="text" name="phone" value="{{ old('phone', $shop->phone) }}" maxlength="100"
+                           class="@error('phone') is-invalid @enderror">
+                    <x-ferr name="phone"/>
                 </div>
                 <div class="field">
                     <label>{{ __('app.shop_address') }}</label>
-                    <input type="text" name="address" value="{{ old('address', $shop->address) }}">
+                    <input type="text" name="address" value="{{ old('address', $shop->address) }}" maxlength="300"
+                           class="@error('address') is-invalid @enderror">
+                    <x-ferr name="address"/>
                 </div>
             </div>
         </div>
@@ -54,8 +66,10 @@
 
                     <div class="field" style="width:100%;margin-bottom:0">
                         <label>{{ __('app.upload_logo') }}</label>
-                        <input type="file" name="logo" id="logoInput" accept="image/png,image/jpeg,image/webp,image/gif">
+                        <input type="file" name="logo" id="logoInput" accept="image/png,image/jpeg,image/webp,image/gif"
+                               class="@error('logo') is-invalid @enderror">
                         <small style="color:var(--muted,#64748b);display:block;margin-top:6px">{{ __('app.logo_hint') }}</small>
+                        <x-ferr name="logo"/>
                     </div>
 
                     @if($shop->logo)

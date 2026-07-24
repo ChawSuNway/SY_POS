@@ -144,6 +144,8 @@ label.check input{width:auto;margin:0}
 input[type=checkbox],input[type=radio]{width:16px;height:16px;accent-color:var(--primary);cursor:pointer;flex:none}
 .inline-form{display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap}
 .err{color:var(--red);font-size:.78rem;margin-top:4px}
+input.is-invalid,select.is-invalid,textarea.is-invalid{border-color:var(--red);background:var(--red-bg)}
+input.is-invalid:focus,select.is-invalid:focus,textarea.is-invalid:focus{box-shadow:0 0 0 3px rgba(220,38,38,.15)}
 .err-box{background:var(--red-bg);color:var(--red);border:1px solid #fecaca;border-radius:8px;padding:10px 14px;margin-bottom:14px;font-size:.85rem}
 
 /* ---------- Alerts ---------- */
